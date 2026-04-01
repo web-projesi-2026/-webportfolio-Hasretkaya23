@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Log In – StudyUp</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../assets/css/style.css"/>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="../index.html" class="logo">Study<span>Up</span></a>
+      <ul class="nav-links">
+        <li><a href="features.html">Features</a></li>
+        <li><a href="tasks.html">Tasks</a></li>
+        <li><a href="goals.html">Goals</a></li>
+        <li><a href="motivation.html">Motivation</a></li>
+        <li><a href="guide.html">Guide</a></li>
+      </ul>
+      <div class="nav-auth">
+        <a href="login.html" class="btn-ghost">Log In</a>
+        <a href="register.html" class="btn-solid">Sign Up</a>
+      </div>
+      <button class="hamburger" id="hamburger-btn" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="features.html">Features</a>
+    <a href="tasks.html">Tasks</a>
+    <a href="goals.html">Goals</a>
+    <a href="motivation.html">Motivation</a>
+    <a href="guide.html">Guide</a>
+    <div class="mobile-auth">
+      <a href="login.html" class="btn-ghost">Log In</a>
+      <a href="register.html" class="btn-solid">Sign Up</a>
+    </div>
+  </div>
+
+  <!-- LOGIN CARD -->
+  <div class="auth-page">
+    <div class="auth-card">
+      <div class="auth-logo">Study<span>Up</span></div>
+      <div style="text-align:center">
+        <span class="auth-role-badge">🎓 Student Login</span>
+      </div>
+      <h2>Welcome back!</h2>
+      <p>Log in to your account and continue studying.</p>
+
+      <form id="login-form" novalidate>
+        <div class="form-group">
+          <label for="auth-email">Email Address</label>
+          <input type="email" id="auth-email" placeholder="example@mail.com" autocomplete="email"/>
+        </div>
+        <div class="form-group">
+          <label for="auth-password">Password</label>
+          <div style="position:relative">
+            <input type="password" id="auth-password" placeholder="Your password" style="padding-right:2.8rem" autocomplete="current-password"/>
+            <button type="button" class="toggle-password" data-target="auth-password"
+              style="position:absolute;right:.75rem;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:1rem">👁️</button>
+          </div>
+        </div>
+        <button type="submit" class="auth-submit" id="login-submit-btn">Log In →</button>
+        <p id="auth-message" style="margin-top:.75rem;font-size:.9rem;text-align:center;min-height:1.2em;"></p>
+      </form>
+
+      <div class="auth-divider">don't have an account?</div>
+      <p class="auth-switch"><a href="register.html">Sign Up Free 🚀</a></p>
+      <a href="../index.html" class="back-home">← Back to Home</a>
+    </div>
+  </div>
+
+  <script src="../assets/js/main.js"></script>
+  <script>
+    (function(){
+      try {
+        var u = JSON.parse(sessionStorage.getItem('studyup_user'));
+        if (u) window.location.href = '../index.html';
+      } catch(e){}
+    })();
+
+    document.querySelectorAll('.toggle-password').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var el = document.getElementById(btn.getAttribute('data-target'));
+        if (!el) return;
+        el.type = (el.type === 'password') ? 'text' : 'password';
+        btn.textContent = (el.type === 'password') ? '👁️' : '🙈';
+      });
+    });
+
+    function getUsers() {
+      try { return JSON.parse(localStorage.getItem('studyup_users')) || []; } catch(e){ return []; }
+    }
+
+    document.getElementById('login-form').addEventListener('submit', function(e){
+      e.preventDefault();
+      var msgEl  = document.getElementById('auth-message');
+      var btn    = document.getElementById('login-submit-btn');
+      var email  = document.getElementById('auth-email').value.trim();
+      var pass   = document.getElementById('auth-password').value;
+
+      msgEl.style.color = '#f87171';
+
+      if (!email || !pass) {
+        msgEl.textContent = '⚠️ Email and password cannot be empty.';
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Please wait...';
+
+      var users = getUsers();
+      var found = users.find(function(u){ return u.email === email && u.password === pass; });
+
+      setTimeout(function(){
+        if (found) {
+          sessionStorage.setItem('studyup_user', JSON.stringify({ name: found.name, email: found.email }));
+          msgEl.style.color = '#34d399';
+          msgEl.textContent = '✅ Welcome, ' + found.name + '! Redirecting...';
+          setTimeout(function(){ window.location.href = '../index.html'; }, 1200);
+        } else {
+          msgEl.textContent = '❌ Incorrect email or password. If you don\'t have an account, sign up.';
+          btn.disabled = false;
+          btn.textContent = 'Log In →';
+        }
+      }, 700);
+    });
+  </script>
+</body>
+</html>

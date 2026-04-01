@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Goals – StudyUp</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../assets/css/style.css"/>
+</head>
+<body>
+
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="../index.html" class="logo">Study<span>Up</span></a>
+      <ul class="nav-links">
+        <li><a href="features.html">Features</a></li>
+        <li><a href="tasks.html">Tasks</a></li>
+        <li><a href="goals.html">Goals</a></li>
+        <li><a href="motivation.html">Motivation</a></li>
+        <li><a href="guide.html">Guide</a></li>
+      </ul>
+      <div class="nav-auth" id="nav-auth">
+        <a href="login.html" class="btn-ghost" id="nav-login-btn">Log In</a>
+        <a href="register.html" class="btn-solid" id="nav-signup-btn">Sign Up</a>
+        <div class="user-menu" id="user-menu" style="display:none;align-items:center;gap:.75rem;">
+          <span id="user-name-el" style="font-size:.85rem;color:var(--blue);font-weight:600;"></span>
+          <button onclick="authLogout()" class="btn-ghost">Log Out</button>
+        </div>
+      </div>
+      <button class="hamburger" id="hamburger-btn" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="features.html">Features</a>
+    <a href="tasks.html">Tasks</a>
+    <a href="goals.html">Goals</a>
+    <a href="motivation.html">Motivation</a>
+    <a href="guide.html">Guide</a>
+    <div class="mobile-auth">
+      <a href="login.html" class="btn-ghost">Log In</a>
+      <a href="register.html" class="btn-solid">Sign Up</a>
+    </div>
+  </div>
+
+  <section style="padding:9rem 6% 5rem;">
+    <div class="section-head reveal">
+      <span class="section-label">🎯 Goal Setting</span>
+      <h2 class="section-title">Set your goals,<br/>track your progress.</h2>
+      <p class="section-desc">Save your short and long term goals, track your progress every day.</p>
+    </div>
+    <div class="hedef-grid stagger-children reveal" style="margin-top:3rem;">
+      <div class="hedef-card">
+        <div class="hedef-type">📅 Short Term</div>
+        <h4>This Week</h4>
+        <ul class="hedef-list">
+          <li class="h-done">Finish mathematics chapter</li>
+          <li class="h-done">Solve 3 practice exams</li>
+          <li>Memorize chemistry formulas</li>
+          <li>50 English words</li>
+        </ul>
+        <div class="hedef-progress">
+          <div class="hp-bar"><div class="hp-fill" style="width:50%"></div></div>
+          <span>2/4 completed</span>
+        </div>
+      </div>
+      <div class="hedef-card hedef-card-mid">
+        <div class="hedef-type">📆 Medium Term</div>
+        <h4>This Month</h4>
+        <ul class="hedef-list">
+          <li class="h-done">Practice exam average 300+</li>
+          <li>Review all science topics</li>
+          <li>Finish history question bank</li>
+          <li>Practice essay writing</li>
+        </ul>
+        <div class="hedef-progress">
+          <div class="hp-bar"><div class="hp-fill hp-mid" style="width:25%"></div></div>
+          <span>1/4 completed</span>
+        </div>
+      </div>
+      <div class="hedef-card hedef-card-long">
+        <div class="hedef-type">🏆 Long Term</div>
+        <h4>This Year</h4>
+        <ul class="hedef-list">
+          <li>Get into target university</li>
+          <li>Get B2 English certificate</li>
+          <li>Complete coding course</li>
+          <li>Apply for scholarships</li>
+        </ul>
+        <div class="hedef-progress">
+          <div class="hp-bar"><div class="hp-fill hp-long" style="width:0%"></div></div>
+          <span>0/4 completed</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="logo">Study<span>Up</span></div>
+        <p>Course Guide Management and Motivation Platform for Students</p>
+      </div>
+      <div class="footer-links-group">
+        <h5>Features</h5>
+        <a href="tasks.html">Task Management</a>
+        <a href="goals.html">Goal Setting</a>
+        <a href="motivation.html">Motivation</a>
+        <a href="guide.html">Study Guide</a>
+      </div>
+      <div class="footer-links-group">
+        <h5>Account</h5>
+        <a href="register.html">Sign Up</a>
+        <a href="login.html">Login</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 StudyUp · Web Editor Course Project · All rights reserved.</p>
+    </div>
+  </footer>
+
+  <button id="scroll-top" aria-label="Scroll to top">↑</button>
+  <script src="../assets/js/main.js"></script>
+  <script>
+    (function(){
+      var user = null;
+      try { user = JSON.parse(sessionStorage.getItem("studyup_user")); } catch(e){}
+      var loginBtn  = document.getElementById("nav-login-btn");
+      var signupBtn = document.getElementById("nav-signup-btn");
+      var userMenu  = document.getElementById("user-menu");
+      var userNameEl= document.getElementById("user-name-el");
+      if (user) {
+        if (loginBtn)  loginBtn.style.display  = "none";
+        if (signupBtn) signupBtn.style.display  = "none";
+        if (userMenu)  userMenu.style.display   = "flex";
+        if (userNameEl) userNameEl.textContent  = user.name || user.email;
+      }
+    })();
+    function authLogout() {
+      sessionStorage.removeItem("studyup_user");
+      window.location.reload();
+    }
+  </script>
+</body>
+</html>
