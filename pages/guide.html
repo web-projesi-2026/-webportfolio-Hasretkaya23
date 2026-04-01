@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Study Guide – StudyUp</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../assets/css/style.css"/>
+</head>
+<body>
+
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="../index.html" class="logo">Study<span>Up</span></a>
+      <ul class="nav-links">
+        <li><a href="features.html">Features</a></li>
+        <li><a href="tasks.html">Tasks</a></li>
+        <li><a href="goals.html">Goals</a></li>
+        <li><a href="motivation.html">Motivation</a></li>
+        <li><a href="guide.html">Guide</a></li>
+      </ul>
+      <div class="nav-auth" id="nav-auth">
+        <a href="login.html" class="btn-ghost" id="nav-login-btn">Log In</a>
+        <a href="register.html" class="btn-solid" id="nav-signup-btn">Sign Up</a>
+        <div class="user-menu" id="user-menu" style="display:none;align-items:center;gap:.75rem;">
+          <span id="user-name-el" style="font-size:.85rem;color:var(--blue);font-weight:600;"></span>
+          <button onclick="authLogout()" class="btn-ghost">Log Out</button>
+        </div>
+      </div>
+      <button class="hamburger" id="hamburger-btn" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="features.html">Features</a>
+    <a href="tasks.html">Tasks</a>
+    <a href="goals.html">Goals</a>
+    <a href="motivation.html">Motivation</a>
+    <a href="guide.html">Guide</a>
+    <div class="mobile-auth">
+      <a href="login.html" class="btn-ghost">Log In</a>
+      <a href="register.html" class="btn-solid">Sign Up</a>
+    </div>
+  </div>
+
+  <section style="padding:9rem 6% 5rem;">
+    <div class="section-head reveal">
+      <span class="section-label">📖 Study Tips</span>
+      <h2 class="section-title">Work smarter,<br/>learn more.</h2>
+      <p class="section-desc">Science-backed study techniques to boost your learning.</p>
+    </div>
+    <div class="rehber-grid stagger-children reveal" style="margin-top:3rem;">
+      <div class="rehber-card">
+        <div class="rehber-num">01</div>
+        <h3>Pomodoro Technique</h3>
+        <p>Focus for 25 minutes, take a 5-minute break. After 4 pomodoros take a long break.</p>
+        <div class="rehber-tag">⏱️ Time Management</div>
+      </div>
+      <div class="rehber-card">
+        <div class="rehber-num">02</div>
+        <h3>Active Recall</h3>
+        <p>Close what you read and summarize from memory. Much more effective than passive reading.</p>
+        <div class="rehber-tag">🧠 Memory</div>
+      </div>
+      <div class="rehber-card">
+        <div class="rehber-num">03</div>
+        <h3>Spaced Repetition</h3>
+        <p>Review topics on day 1, 3, 7 and 30. Transfer knowledge to long-term memory.</p>
+        <div class="rehber-tag">📅 Planning</div>
+      </div>
+      <div class="rehber-card">
+        <div class="rehber-num">04</div>
+        <h3>Feynman Method</h3>
+        <p>Explain what you learned in simple terms as if teaching someone. Find your gaps.</p>
+        <div class="rehber-tag">💡 Understanding</div>
+      </div>
+      <div class="rehber-card">
+        <div class="rehber-num">05</div>
+        <h3>Goal-Focused Study</h3>
+        <p>Before each study session answer: "What will I learn in this session?"</p>
+        <div class="rehber-tag">🎯 Goals</div>
+      </div>
+      <div class="rehber-card">
+        <div class="rehber-num">06</div>
+        <h3>Time Blocking</h3>
+        <p>Divide the day into 2-3 hour blocks. Assign one subject or topic per block.</p>
+        <div class="rehber-tag">⏰ Efficiency</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="logo">Study<span>Up</span></div>
+        <p>Course Guide Management and Motivation Platform for Students</p>
+      </div>
+      <div class="footer-links-group">
+        <h5>Features</h5>
+        <a href="tasks.html">Task Management</a>
+        <a href="goals.html">Goal Setting</a>
+        <a href="motivation.html">Motivation</a>
+        <a href="guide.html">Study Guide</a>
+      </div>
+      <div class="footer-links-group">
+        <h5>Account</h5>
+        <a href="register.html">Sign Up</a>
+        <a href="login.html">Login</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 StudyUp · Web Editor Course Project · All rights reserved.</p>
+    </div>
+  </footer>
+
+  <button id="scroll-top" aria-label="Scroll to top">↑</button>
+  <script src="../assets/js/main.js"></script>
+  <script>
+    (function(){
+      var user = null;
+      try { user = JSON.parse(sessionStorage.getItem("studyup_user")); } catch(e){}
+      var loginBtn  = document.getElementById("nav-login-btn");
+      var signupBtn = document.getElementById("nav-signup-btn");
+      var userMenu  = document.getElementById("user-menu");
+      var userNameEl= document.getElementById("user-name-el");
+      if (user) {
+        if (loginBtn)  loginBtn.style.display  = "none";
+        if (signupBtn) signupBtn.style.display  = "none";
+        if (userMenu)  userMenu.style.display   = "flex";
+        if (userNameEl) userNameEl.textContent  = user.name || user.email;
+      }
+    })();
+    function authLogout() {
+      sessionStorage.removeItem("studyup_user");
+      window.location.reload();
+    }
+  </script>
+</body>
+</html>
