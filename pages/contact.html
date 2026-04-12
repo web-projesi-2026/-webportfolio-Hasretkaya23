@@ -1,1 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+    <meta name="robots" content="index, follow"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Get in touch with the StudyUp team. We'd love to hear your feedback, suggestions or questions."/>
+  <meta name="keywords" content="StudyUp, contact, support, feedback, student platform"/>
+  <title>Contact – StudyUp</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../assets/css/style.css"/>
+  <style>
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: start;
+      margin-top: 3rem;
+    }
+    .contact-info-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+    .contact-info-card {
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 1rem;
+      padding: 1.5rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+    .contact-info-icon {
+      font-size: 1.5rem;
+      flex-shrink: 0;
+      width: 2.8rem;
+      height: 2.8rem;
+      background: rgba(99,179,237,.1);
+      border-radius: .75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .contact-info-card h4 {
+      font-size: .85rem;
+      color: var(--muted);
+      margin-bottom: .25rem;
+      font-weight: 500;
+    }
+    .contact-info-card p {
+      font-size: .95rem;
+      color: var(--text);
+      font-weight: 600;
+    }
+    .contact-form-card {
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 1.25rem;
+      padding: 2.5rem;
+    }
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+    .form-group label {
+      display: block;
+      font-size: .85rem;
+      color: var(--muted);
+      margin-bottom: .5rem;
+      font-weight: 500;
+    }
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: .75rem;
+      padding: .85rem 1rem;
+      color: var(--text);
+      font-family: inherit;
+      font-size: .95rem;
+      outline: none;
+      transition: border-color .2s;
+      box-sizing: border-box;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      border-color: var(--blue);
+    }
+    .form-group textarea {
+      resize: vertical;
+      min-height: 130px;
+    }
+    .form-group select option {
+      background: #0f1623;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    .form-success {
+      display: none;
+      background: rgba(74,222,128,.1);
+      border: 1px solid rgba(74,222,128,.3);
+      border-radius: .75rem;
+      padding: 1.25rem;
+      text-align: center;
+      color: #4ade80;
+      font-weight: 600;
+      margin-top: 1rem;
+    }
+    @media (max-width: 768px) {
+      .contact-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="icon" type="image/png" href="../assets/img/favicon.png"/>
+  <link rel="canonical" href="https://hasretkaya23.github.io/webportfolio/pages/contact.html"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content="https://hasretkaya23.github.io/webportfolio/pages/contact.html"/>
+  <meta property="og:title" content="Contact – StudyUp"/>
+  <meta property="og:description" content="Contact StudyUp – get in touch with us for support or collaboration."/>
+  <meta property="og:image" content="https://hasretkaya23.github.io/webportfolio/assets/img/og-cover.jpg"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Contact – StudyUp"/>
+  <meta name="twitter:description" content="Contact StudyUp – get in touch with us for support or collaboration."/>
+  <meta name="twitter:image" content="https://hasretkaya23.github.io/webportfolio/assets/img/og-cover.jpg"/>
+  <link rel="stylesheet" href="../assets/css/responsive.css"/>
+</head>
+<body>
 
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="../index.html" class="logo">Study<span>Up</span></a>
+      <ul class="nav-links">
+        <li><a href="features.html">Features</a></li>
+        <li><a href="tasks.html">Tasks</a></li>
+        <li><a href="goals.html">Goals</a></li>
+        <li><a href="motivation.html">Motivation</a></li>
+        <li><a href="guide.html">Guide</a></li>
+      </ul>
+      <div class="nav-auth" id="nav-auth">
+        <a href="login.html" class="btn-ghost" id="nav-login-btn">Log In</a>
+        <a href="register.html" class="btn-solid" id="nav-signup-btn">Sign Up</a>
+        <div class="user-menu" id="user-menu" style="display:none;align-items:center;gap:.75rem;">
+          <span id="user-name-el" style="font-size:.85rem;color:var(--blue);font-weight:600;"></span>
+          <button onclick="authLogout()" class="btn-ghost">Log Out</button>
+        </div>
+      </div>
+      <button class="hamburger" id="hamburger-btn" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="features.html">Features</a>
+    <a href="tasks.html">Tasks</a>
+    <a href="goals.html">Goals</a>
+    <a href="motivation.html">Motivation</a>
+    <a href="guide.html">Guide</a>
+    <div class="mobile-auth">
+      <a href="login.html" class="btn-ghost">Log In</a>
+      <a href="register.html" class="btn-solid">Sign Up</a>
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <section style="padding:clamp(6rem,10vw,9rem) clamp(1.2rem,6%,6%) 3rem; max-width:1200px; margin:0 auto; text-align:center;">
+    <div class="section-head reveal">
+      <span class="section-label"><i class="fa-solid fa-envelope-open"></i> Contact</span>
+      <h2 class="section-title">Get in Touch</h2>
+      <p style="max-width:550px; margin:1rem auto 0; color:var(--muted); font-size:1.05rem; line-height:1.7;">
+        Have a question, suggestion or bug to report? We'd love to hear from you. Fill in the form below and we'll get back to you as soon as possible.
+      </p>
+    </div>
+  </section>
+
+  <!-- CONTACT GRID -->
+  <section style="padding:2rem 6% 6rem;">
+    <div style="max-width:1200px; margin:0 auto;">
+      <div class="contact-grid reveal">
+
+        <!-- LEFT: Info cards -->
+        <div class="contact-info-cards">
+          <div class="contact-info-card">
+            <div class="contact-info-icon"><i class="fa-solid fa-envelope"></i></div>
+            <div>
+              <h4>Email</h4>
+              <p>hello@studyup.app</p>
+            </div>
+          </div>
+          <div class="contact-info-card">
+            <div class="contact-info-icon"><i class="fa-solid fa-school"></i></div>
+            <div>
+              <h4>Institution</h4>
+              <p>Web Design Course Project</p>
+            </div>
+          </div>
+          <div class="contact-info-card">
+            <div class="contact-info-icon">⏰</div>
+            <div>
+              <h4>Response Time</h4>
+              <p>Usually within 24 hours</p>
+            </div>
+          </div>
+          <div class="contact-info-card">
+            <div class="contact-info-icon"><i class="fa-solid fa-earth-europe"></i></div>
+            <div>
+              <h4>Platform</h4>
+              <p>Available in English · Free to use</p>
+            </div>
+          </div>
+
+          <!-- FAQ mini section -->
+          <div style="margin-top:1rem;">
+            <h3 style="font-size:1.1rem; margin-bottom:1rem; color:var(--text);">Frequently Asked Questions</h3>
+            <div style="display:flex; flex-direction:column; gap:.75rem;">
+              <div style="background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.08); border-radius:.75rem; padding:1.2rem;">
+                <p style="font-size:.9rem; font-weight:600; color:var(--text); margin-bottom:.4rem;">Is StudyUp free?</p>
+                <p style="font-size:.85rem; color:var(--muted); line-height:1.6;">Yes, StudyUp is completely free for all students. No hidden charges.</p>
+              </div>
+              <div style="background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.08); border-radius:.75rem; padding:1.2rem;">
+                <p style="font-size:.9rem; font-weight:600; color:var(--text); margin-bottom:.4rem;">Can I use it on my phone?</p>
+                <p style="font-size:.85rem; color:var(--muted); line-height:1.6;">Absolutely. StudyUp is fully responsive and works on all screen sizes.</p>
+              </div>
+              <div style="background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.08); border-radius:.75rem; padding:1.2rem;">
+                <p style="font-size:.9rem; font-weight:600; color:var(--text); margin-bottom:.4rem;">Is my data safe?</p>
+                <p style="font-size:.85rem; color:var(--muted); line-height:1.6;">Your data is stored securely and never shared with third parties.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: Form -->
+        <div class="contact-form-card">
+          <h3 style="font-size:1.3rem; margin-bottom:1.75rem;">Send a Message</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="c-name">Full Name</label>
+              <input type="text" id="c-name" placeholder="Your name" />
+            </div>
+            <div class="form-group">
+              <label for="c-email">Email Address</label>
+              <input type="email" id="c-email" placeholder="you@example.com" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="c-subject">Subject</label>
+            <select id="c-subject">
+              <option value="">Select a subject…</option>
+              <option>General Question</option>
+              <option>Bug Report</option>
+              <option>Feature Request</option>
+              <option>Account Issue</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="c-message">Message</label>
+            <textarea id="c-message" placeholder="Write your message here…"></textarea>
+          </div>
+          <button class="btn-primary" style="width:100%; justify-content:center; border:none; cursor:pointer; font-size:1rem;" onclick="handleContactSubmit()">
+            Send Message <i class="fa-solid fa-envelope"></i>
+          </button>
+          <div class="form-success" id="contact-success">
+            <i class="fa-solid fa-circle-check"></i> Your message has been sent! We'll get back to you soon.
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="logo">Study<span>Up</span></div>
+        <p>Study Guide Management and Motivation Platform for Students</p>
+      </div>
+      <div class="footer-links-group">
+        <h5>Pages</h5>
+        <a href="features.html">Features</a>
+        <a href="tasks.html">Tasks</a>
+        <a href="goals.html">Goals</a>
+        <a href="motivation.html">Motivation</a>
+        <a href="guide.html">Guide</a>
+      </div>
+      <div class="footer-links-group">
+        <h5>Account</h5>
+        <a href="register.html">Sign Up</a>
+        <a href="login.html">Log In</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 StudyUp · Web Editor Course Project · All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <button id="scroll-top" aria-label="Scroll to top">↑</button>
+  <script src="../assets/js/main.js"></script>
+  <script>
+    (function(){
+      var user = null;
+      try { user = JSON.parse(sessionStorage.getItem("studyup_user")); } catch(e){}
+      var loginBtn  = document.getElementById("nav-login-btn");
+      var signupBtn = document.getElementById("nav-signup-btn");
+      var userMenu  = document.getElementById("user-menu");
+      var userNameEl= document.getElementById("user-name-el");
+      if (user) {
+        if (loginBtn)  loginBtn.style.display  = "none";
+        if (signupBtn) signupBtn.style.display  = "none";
+        if (userMenu)  userMenu.style.display   = "flex";
+        if (userNameEl) userNameEl.textContent  = user.name || user.email;
+      }
+    })();
+    function authLogout() {
+      sessionStorage.removeItem("studyup_user");
+      window.location.reload();
+    }
+    function handleContactSubmit() {
+      var name    = document.getElementById("c-name").value.trim();
+      var email   = document.getElementById("c-email").value.trim();
+      var subject = document.getElementById("c-subject").value;
+      var message = document.getElementById("c-message").value.trim();
+      if (!name || !email || !subject || !message) {
+        alert("Please fill in all fields before sending.");
+        return;
+      }
+      document.getElementById("contact-success").style.display = "block";
+      document.getElementById("c-name").value = "";
+      document.getElementById("c-email").value = "";
+      document.getElementById("c-subject").value = "";
+      document.getElementById("c-message").value = "";
+    }
+  </script>
+</body>
+</html>

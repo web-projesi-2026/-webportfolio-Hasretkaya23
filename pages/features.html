@@ -3,12 +3,31 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="StudyUp Features – explore all tools for student productivity."/>
+  <meta name="robots" content="index, follow"/>
+  <meta name="keywords" content="StudyUp, features, tasks, goals, motivation, student productivity"/>
   <title>Features – StudyUp</title>
+  <!-- Open Graph -->
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content="https://hasretkaya23.github.io/webportfolio/pages/features.html"/>
+  <meta property="og:title" content="Features – StudyUp"/>
+  <meta property="og:description" content="StudyUp Features – explore all tools for student productivity."/>
+  <meta property="og:image" content="https://hasretkaya23.github.io/webportfolio/assets/img/og-cover.jpg"/>
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Features – StudyUp"/>
+  <meta name="twitter:description" content="StudyUp Features – explore all tools for student productivity."/>
+  <meta name="twitter:image" content="https://hasretkaya23.github.io/webportfolio/assets/img/og-cover.jpg"/>
+  <link rel="canonical" href="https://hasretkaya23.github.io/webportfolio/pages/features.html"/>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="../assets/css/style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="icon" type="image/png" href="../assets/img/favicon.png"/>
+  <link rel="stylesheet" href="../assets/css/responsive.css"/>
 </head>
 <body>
 
+  <!-- NAVBAR -->
   <nav id="navbar">
     <div class="nav-inner">
       <a href="../index.html" class="logo">Study<span>Up</span></a>
@@ -23,7 +42,7 @@
         <a href="login.html" class="btn-ghost" id="nav-login-btn">Log In</a>
         <a href="register.html" class="btn-solid" id="nav-signup-btn">Sign Up</a>
         <div class="user-menu" id="user-menu" style="display:none;align-items:center;gap:.75rem;">
-          <span id="user-name-el" style="font-size:.85rem;color:var(--blue);font-weight:600;"></span>
+          <span id="user-name-el"></span>
           <button onclick="authLogout()" class="btn-ghost">Log Out</button>
         </div>
       </div>
@@ -32,6 +51,8 @@
       </button>
     </div>
   </nav>
+
+  <!-- MOBİL MENÜ -->
   <div class="mobile-menu" id="mobile-menu">
     <a href="features.html">Features</a>
     <a href="tasks.html">Tasks</a>
@@ -44,81 +65,92 @@
     </div>
   </div>
 
-  <section style="padding:9rem 6% 5rem; max-width:1200px; margin:0 auto;">
-    <div class="section-head reveal">
-      <span class="section-label">⚡ Features</span>
-      <h2 class="section-title">Everything you need<br/>in one platform</h2>
-    </div>
-    <div class="features-grid stagger-children reveal" style="margin-top:3rem;">
-      <div class="feat-card feat-blue">
-        <div class="feat-icon">👤</div>
-        <h3>User Registration & Login</h3>
-        <p>Create a secure account, keep your information saved. Server-side verification with PHP.</p>
+  <!-- İÇERİK -->
+  <section style="padding:clamp(6rem,10vw,9rem) clamp(1.2rem,6%,6%) clamp(3rem,6vw,5rem);">
+    <div style="max-width:1200px;margin:0 auto;">
+      <div class="section-head reveal">
+        <span class="section-label"><i class="fa-solid fa-bolt"></i> Features</span>
+        <h2 class="section-title">Everything you need<br/>in one platform</h2>
+        <p class="section-desc">All the tools a student needs to study productively.</p>
       </div>
-      <div class="feat-card feat-green">
-        <div class="feat-icon">➕</div>
-        <h3>Add Task</h3>
-        <p>Create tasks by specifying subject, topic and deadline. Set priority level.</p>
+
+      <div class="features-grid stagger-children reveal" style="margin-top:3rem;">
+        <div class="feat-card feat-blue">
+          <div class="feat-icon"><i class="fa-solid fa-user"></i></div>
+          <h3>User Registration &amp; Login</h3>
+          <p>Create a secure account, keep your information saved. Server-side verification with PHP.</p>
+        </div>
+        <div class="feat-card feat-green">
+          <div class="feat-icon"><i class="fa-solid fa-plus"></i></div>
+          <h3>Add Task</h3>
+          <p>Create tasks by specifying subject, topic and deadline. Set priority level.</p>
+        </div>
+        <div class="feat-card feat-red">
+          <div class="feat-icon"><i class="fa-solid fa-trash"></i></div>
+          <h3>Delete Task</h3>
+          <p>Remove completed or cancelled tasks. Confirmation dialog before deletion.</p>
+        </div>
+        <div class="feat-card feat-yellow">
+          <div class="feat-icon"><i class="fa-solid fa-circle-check"></i></div>
+          <h3>Mark as Completed</h3>
+          <p>Mark tasks as done, track your daily progress with a visual progress bar.</p>
+        </div>
+        <div class="feat-card feat-purple">
+          <div class="feat-icon"><i class="fa-solid fa-bullseye"></i></div>
+          <h3>Goal Setting</h3>
+          <p>Save short, medium and long-term goals. Track progress for each goal.</p>
+        </div>
+        <div class="feat-card feat-pink">
+          <div class="feat-icon"><i class="fa-solid fa-comment"></i></div>
+          <h3>Daily Motivation</h3>
+          <p>Start each day with a different inspiring quote. Keep your daily streak going.</p>
+        </div>
+        <div class="feat-card feat-teal">
+          <div class="feat-icon"><i class="fa-solid fa-fire"></i></div>
+          <h3>Streak System</h3>
+          <p>Track how many days in a row you study. Build a habit and stay consistent.</p>
+        </div>
+        <div class="feat-card feat-orange">
+          <div class="feat-icon"><i class="fa-solid fa-book"></i></div>
+          <h3>Study Guide</h3>
+          <p>Science-backed study techniques: Pomodoro, Active Recall, Spaced Repetition and more.</p>
+        </div>
+        <div class="feat-card feat-indigo">
+          <div class="feat-icon"><i class="fa-solid fa-mobile-screen"></i></div>
+          <h3>Responsive Design</h3>
+          <p>Use on any device. Fully optimized for mobile, tablet and desktop screens.</p>
+        </div>
       </div>
-      <div class="feat-card feat-red">
-        <div class="feat-icon">🗑️</div>
-        <h3>Delete Task</h3>
-        <p>Remove unnecessary tasks with one click. Confirmation prevents accidental deletion.</p>
-      </div>
-      <div class="feat-card feat-yellow">
-        <div class="feat-icon">✏️</div>
-        <h3>Update Task</h3>
-        <p>Edit the title, date and priority of existing tasks at any time.</p>
-      </div>
-      <div class="feat-card feat-purple">
-        <div class="feat-icon">✅</div>
-        <h3>Mark as Completed</h3>
-        <p>Mark tasks as completed, progress bar updates automatically.</p>
-      </div>
-      <div class="feat-card feat-pink">
-        <div class="feat-icon">💬</div>
-        <h3>Daily Motivation Quote</h3>
-        <p>Start the day with a different inspiring quote every day.</p>
-      </div>
-      <div class="feat-card feat-teal">
-        <div class="feat-icon">🎯</div>
-        <h3>Goal Setting</h3>
-        <p>Save your short and long term goals, track your progress.</p>
-      </div>
-      <div class="feat-card feat-orange">
-        <div class="feat-icon">📖</div>
-        <h3>Study Tips</h3>
-        <p>Proven study techniques like Pomodoro, Feynman, Spaced Repetition.</p>
-      </div>
-      <div class="feat-card feat-indigo">
-        <div class="feat-icon">⏰</div>
-        <h3>Time Management Guide</h3>
-        <p>Step by step guide for daily, weekly and monthly time planning.</p>
+
+      <div style="text-align:center;margin-top:3rem;">
+        <a href="register.html" class="btn-primary">Get Started Free <i class="fa-solid fa-rocket"></i></a>
       </div>
     </div>
   </section>
 
+  <!-- FOOTER -->
   <footer>
     <div class="footer-inner">
       <div class="footer-brand">
-        <div class="logo">Study<span>Up</span></div>
-        <p>Course Guide Management and Motivation Platform for Students</p>
+        <a href="../index.html" class="logo">Study<span>Up</span></a>
+        <p>Study Guide Management and Motivation Platform for Students</p>
       </div>
       <div class="footer-links-group">
-        <h5>Features</h5>
-        <a href="tasks.html">Task Management</a>
-        <a href="goals.html">Goal Setting</a>
+        <h5>Pages</h5>
+        <a href="features.html">Features</a>
+        <a href="tasks.html">Tasks</a>
+        <a href="goals.html">Goals</a>
         <a href="motivation.html">Motivation</a>
-        <a href="guide.html">Study Guide</a>
+        <a href="guide.html">Guide</a>
       </div>
       <div class="footer-links-group">
         <h5>Account</h5>
         <a href="register.html">Sign Up</a>
-        <a href="login.html">Login</a>
+        <a href="login.html">Log In</a>
       </div>
     </div>
     <div class="footer-bottom">
-      <p>© 2025 StudyUp · Web Editor Course Project · All rights reserved.</p>
+      <p>© 2025 StudyUp · Web Editor Course Project · All Rights Reserved.</p>
     </div>
   </footer>
 
@@ -127,20 +159,20 @@
   <script>
     (function(){
       var user = null;
-      try { user = JSON.parse(sessionStorage.getItem("studyup_user")); } catch(e){}
-      var loginBtn  = document.getElementById("nav-login-btn");
-      var signupBtn = document.getElementById("nav-signup-btn");
-      var userMenu  = document.getElementById("user-menu");
-      var userNameEl= document.getElementById("user-name-el");
+      try { user = JSON.parse(sessionStorage.getItem('studyup_user')); } catch(e){}
+      var loginBtn  = document.getElementById('nav-login-btn');
+      var signupBtn = document.getElementById('nav-signup-btn');
+      var userMenu  = document.getElementById('user-menu');
+      var userNameEl= document.getElementById('user-name-el');
       if (user) {
-        if (loginBtn)  loginBtn.style.display  = "none";
-        if (signupBtn) signupBtn.style.display  = "none";
-        if (userMenu)  userMenu.style.display   = "flex";
-        if (userNameEl) userNameEl.textContent  = user.name || user.email;
+        if (loginBtn)   loginBtn.style.display  = 'none';
+        if (signupBtn)  signupBtn.style.display  = 'none';
+        if (userMenu)   userMenu.style.display   = 'flex';
+        if (userNameEl) userNameEl.textContent   = user.name || user.email;
       }
     })();
     function authLogout() {
-      sessionStorage.removeItem("studyup_user");
+      sessionStorage.removeItem('studyup_user');
       window.location.reload();
     }
   </script>

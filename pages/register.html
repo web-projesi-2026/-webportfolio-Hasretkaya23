@@ -2,10 +2,25 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
+    <meta name="description" content="StudyUp Register"/>
+    <meta name="robots" content="noindex, nofollow"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Sign Up – StudyUp</title>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="../assets/css/style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="icon" type="image/png" href="../assets/img/favicon.png"/>
+  <link rel="canonical" href="https://hasretkaya23.github.io/webportfolio/pages/register.html"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content="https://hasretkaya23.github.io/webportfolio/pages/register.html"/>
+  <meta property="og:title" content="Register – StudyUp"/>
+  <meta property="og:description" content="StudyUp Register"/>
+  <meta property="og:image" content="https://hasretkaya23.github.io/webportfolio/assets/img/og-cover.jpg"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Register – StudyUp"/>
+  <meta name="twitter:description" content="StudyUp Register"/>
+  <meta name="twitter:image" content="https://hasretkaya23.github.io/webportfolio/assets/img/og-cover.jpg"/>
+  <link rel="stylesheet" href="../assets/css/responsive.css"/>
 </head>
 <body>
 
@@ -48,7 +63,7 @@
     <div class="auth-card">
       <div class="auth-logo">Study<span>Up</span></div>
       <div style="text-align:center">
-        <span class="auth-role-badge">🚀 Create a Free Account</span>
+        <span class="auth-role-badge"><i class="fa-solid fa-rocket"></i> Create a Free Account</span>
       </div>
       <h2>Join us!</h2>
       <p>Create your account and start studying right away.</p>
@@ -71,7 +86,7 @@
           <div style="position:relative">
             <input type="password" id="auth-password" placeholder="At least 6 characters" style="padding-right:2.8rem" autocomplete="new-password"/>
             <button type="button" class="toggle-password" data-target="auth-password"
-              style="position:absolute;right:.75rem;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:1rem">👁️</button>
+              style="position:absolute;right:.75rem;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:1rem"><i class="fa-solid fa-eye"></i></button>
           </div>
         </div>
         <div class="form-group">
@@ -79,10 +94,10 @@
           <div style="position:relative">
             <input type="password" id="auth-password2" placeholder="Re-enter your password" style="padding-right:2.8rem" autocomplete="new-password"/>
             <button type="button" class="toggle-password" data-target="auth-password2"
-              style="position:absolute;right:.75rem;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:1rem">👁️</button>
+              style="position:absolute;right:.75rem;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:1rem"><i class="fa-solid fa-eye"></i></button>
           </div>
         </div>
-        <button type="submit" class="auth-submit" id="register-submit-btn">Sign Up 🚀</button>
+        <button type="submit" class="auth-submit" id="register-submit-btn">Sign Up <i class="fa-solid fa-rocket"></i></button>
         <p id="auth-message" style="margin-top:.75rem;font-size:.9rem;text-align:center;min-height:1.2em;"></p>
       </form>
 
@@ -99,7 +114,7 @@
         var el = document.getElementById(btn.getAttribute('data-target'));
         if (!el) return;
         el.type = (el.type === 'password') ? 'text' : 'password';
-        btn.textContent = (el.type === 'password') ? '👁️' : '🙈';
+        btn.textContent = (el.type === 'password') ? '<i class="fa-solid fa-eye"></i>' : '<i class="fa-solid fa-eye-slash"></i>';
       });
     });
 
@@ -123,18 +138,18 @@
       msgEl.style.color = '#f87171';
 
       if (!ad || !soyad || !email || !pass || !pass2) {
-        msgEl.textContent = '⚠️ Please fill in all fields.'; return;
+        msgEl.textContent = '<i class="fa-solid fa-triangle-exclamation"></i> Please fill in all fields.'; return;
       }
       if (pass.length < 6) {
-        msgEl.textContent = '⚠️ Password must be at least 6 characters.'; return;
+        msgEl.textContent = '<i class="fa-solid fa-triangle-exclamation"></i> Password must be at least 6 characters.'; return;
       }
       if (pass !== pass2) {
-        msgEl.textContent = '⚠️ Passwords do not match.'; return;
+        msgEl.textContent = '<i class="fa-solid fa-triangle-exclamation"></i> Passwords do not match.'; return;
       }
 
       var users = getUsers();
       if (users.find(function(u){ return u.email === email; })) {
-        msgEl.textContent = '⚠️ This email is already registered.'; return;
+        msgEl.textContent = '<i class="fa-solid fa-triangle-exclamation"></i> This email is already registered.'; return;
       }
 
       btn.disabled = true;
@@ -144,7 +159,7 @@
         users.push({ name: ad + ' ' + soyad, email: email, password: pass });
         saveUsers(users);
         msgEl.style.color = '#34d399';
-        msgEl.textContent = '✅ Registration successful! Redirecting to login...';
+        msgEl.textContent = '<i class="fa-solid fa-circle-check"></i> Registration successful! Redirecting to login...';
         setTimeout(function(){ window.location.href = 'login.html'; }, 1500);
       }, 700);
     });

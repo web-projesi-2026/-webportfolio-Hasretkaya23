@@ -2,10 +2,25 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
+    <meta name="description" content="StudyUp Tasks – manage and track your study tasks."/>
+    <meta name="robots" content="index, follow"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Tasks – StudyUp</title>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="../assets/css/style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="icon" type="image/png" href="../assets/img/favicon.png"/>
+  <link rel="canonical" href="https://hasretkaya23.github.io/webportfolio/pages/tasks.html"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content="https://hasretkaya23.github.io/webportfolio/pages/tasks.html"/>
+  <meta property="og:title" content="Tasks – StudyUp"/>
+  <meta property="og:description" content="StudyUp Tasks – manage and track your study tasks."/>
+  <meta property="og:image" content="https://hasretkaya23.github.io/webportfolio/assets/img/og-cover.jpg"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Tasks – StudyUp"/>
+  <meta name="twitter:description" content="StudyUp Tasks – manage and track your study tasks."/>
+  <meta name="twitter:image" content="https://hasretkaya23.github.io/webportfolio/assets/img/og-cover.jpg"/>
+  <link rel="stylesheet" href="../assets/css/responsive.css"/>
 </head>
 <body>
 
@@ -44,38 +59,38 @@
     </div>
   </div>
 
-  <section style="padding:9rem 6% 5rem;">
+  <section style="padding:clamp(6rem,10vw,9rem) clamp(1.2rem,6%,6%) clamp(3rem,6vw,5rem);">
     <div class="gorev-layout" style="max-width:1200px; margin:0 auto;">
       <div class="gorev-text reveal">
-        <span class="section-label">✅ Task Management</span>
+        <span class="section-label"><i class="fa-solid fa-circle-check"></i> Task Management</span>
         <h2 class="section-title">Add, track<br/>and complete tasks.</h2>
         <p class="section-desc">Create tasks by subject, set priority, mark completed ones. Progress bar updates instantly.</p>
         <ul class="check-list">
-          <li><span class="cl-icon">✔</span> Add and edit tasks</li>
-          <li><span class="cl-icon">✔</span> Priority level (High / Medium / Low)</li>
-          <li><span class="cl-icon">✔</span> Set deadline</li>
-          <li><span class="cl-icon">✔</span> Mark as completed</li>
-          <li><span class="cl-icon">✔</span> Delete task (with confirmation)</li>
+          <li><span class="cl-icon"><i class="fa-solid fa-check"></i></span> Add and edit tasks</li>
+          <li><span class="cl-icon"><i class="fa-solid fa-check"></i></span> Priority level (High / Medium / Low)</li>
+          <li><span class="cl-icon"><i class="fa-solid fa-check"></i></span> Set deadline</li>
+          <li><span class="cl-icon"><i class="fa-solid fa-check"></i></span> Mark as completed</li>
+          <li><span class="cl-icon"><i class="fa-solid fa-check"></i></span> Delete task (with confirmation)</li>
         </ul>
         <a href="register.html" class="btn-primary" style="margin-top:1.5rem;display:inline-block">Try Now →</a>
       </div>
       <div class="gorev-demo reveal">
         <div class="gdemo-card">
           <div class="gdemo-top">
-            <h4>📋 Task List</h4>
+            <h4><i class="fa-solid fa-clipboard-list"></i> Task List</h4>
             <div class="gdemo-progress-mini"><span id="demo-completed">0</span>/5 completed</div>
           </div>
           <div id="demo-task-list" class="gdemo-list">
             <div class="gdemo-task">
-              <button class="gtask-check-btn" onclick="demoToggle(this)">○</button>
+              <button class="gtask-check-btn" onclick="demoToggle(this)"><i class="fa-regular fa-circle"></i></button>
               <div class="gtask-info">
                 <span class="gtask-title">Mathematics – Derivative Questions</span>
-                <span class="gtask-meta high">🔴 High · Today</span>
+                <span class="gtask-meta high"><i class="fa-solid fa-circle" style="color:#ef4444;"></i> High · Today</span>
               </div>
               <button class="gtask-del-btn" onclick="demoDelete(this)">×</button>
             </div>
             <div class="gdemo-task">
-              <button class="gtask-check-btn" onclick="demoToggle(this)">○</button>
+              <button class="gtask-check-btn" onclick="demoToggle(this)"><i class="fa-regular fa-circle"></i></button>
               <div class="gtask-info">
                 <span class="gtask-title">English Vocabulary List</span>
                 <span class="gtask-meta mid">🟡 Medium · Tomorrow</span>
@@ -83,15 +98,15 @@
               <button class="gtask-del-btn" onclick="demoDelete(this)">×</button>
             </div>
             <div class="gdemo-task">
-              <button class="gtask-check-btn" onclick="demoToggle(this)">○</button>
+              <button class="gtask-check-btn" onclick="demoToggle(this)"><i class="fa-regular fa-circle"></i></button>
               <div class="gtask-info">
                 <span class="gtask-title">Physics – Optics Summary</span>
-                <span class="gtask-meta high">🔴 High · Today</span>
+                <span class="gtask-meta high"><i class="fa-solid fa-circle" style="color:#ef4444;"></i> High · Today</span>
               </div>
               <button class="gtask-del-btn" onclick="demoDelete(this)">×</button>
             </div>
             <div class="gdemo-task">
-              <button class="gtask-check-btn" onclick="demoToggle(this)">○</button>
+              <button class="gtask-check-btn" onclick="demoToggle(this)"><i class="fa-regular fa-circle"></i></button>
               <div class="gtask-info">
                 <span class="gtask-title">History Summary Notes</span>
                 <span class="gtask-meta low">🟢 Low · This Week</span>
@@ -99,7 +114,7 @@
               <button class="gtask-del-btn" onclick="demoDelete(this)">×</button>
             </div>
             <div class="gdemo-task">
-              <button class="gtask-check-btn" onclick="demoToggle(this)">○</button>
+              <button class="gtask-check-btn" onclick="demoToggle(this)"><i class="fa-regular fa-circle"></i></button>
               <div class="gtask-info">
                 <span class="gtask-title">Chemistry – Periodic Table Review</span>
                 <span class="gtask-meta mid">🟡 Medium · Tomorrow</span>
