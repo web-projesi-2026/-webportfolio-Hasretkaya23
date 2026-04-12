@@ -2,10 +2,25 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
+    <meta name="description" content="StudyUp Motivation – stay motivated and on track with your studies."/>
+    <meta name="robots" content="index, follow"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Motivation – StudyUp</title>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="../assets/css/style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="icon" type="image/png" href="../assets/img/favicon.png"/>
+  <link rel="canonical" href="https://hasretkaya23.github.io/webportfolio/pages/motivation.html"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content="https://hasretkaya23.github.io/webportfolio/pages/motivation.html"/>
+  <meta property="og:title" content="Motivation – StudyUp"/>
+  <meta property="og:description" content="StudyUp Motivation – stay motivated and on track with your studies."/>
+  <meta property="og:image" content="https://hasretkaya23.github.io/webportfolio/assets/img/og-cover.jpg"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Motivation – StudyUp"/>
+  <meta name="twitter:description" content="StudyUp Motivation – stay motivated and on track with your studies."/>
+  <meta name="twitter:image" content="https://hasretkaya23.github.io/webportfolio/assets/img/og-cover.jpg"/>
+  <link rel="stylesheet" href="../assets/css/responsive.css"/>
 </head>
 <body>
 
@@ -44,24 +59,24 @@
     </div>
   </div>
 
-  <section style="padding:9rem 6% 5rem; background:var(--surface);">
+  <section style="padding:clamp(6rem,10vw,9rem) clamp(1.2rem,6%,6%) clamp(3rem,6vw,5rem); background:var(--surface);">
     <div class="motivasyon-inner reveal">
-      <span class="section-label">💬 Daily Motivation Quote</span>
+      <span class="section-label"><i class="fa-solid fa-comment"></i> Daily Motivation Quote</span>
       <div class="quote-big" id="quote-text">"Success is the sum of small efforts repeated every day."</div>
       <div class="quote-author-big" id="quote-author">— Robert Collier</div>
-      <button class="btn-quote-refresh" id="quote-btn">🔄 New Quote</button>
+      <button class="btn-quote-refresh" id="quote-btn"><i class="fa-solid fa-rotate"></i> New Quote</button>
       <div class="streak-wrap">
         <div class="streak-box">
-          <span class="streak-fire">🔥</span>
+          <span class="streak-fire"><i class="fa-solid fa-fire"></i></span>
           <span class="streak-count" id="streak-count">0</span>
           <span class="streak-label">Day Streak</span>
         </div>
         <div class="streak-box">
-          <span class="streak-fire">⚡</span>
+          <span class="streak-fire"><i class="fa-solid fa-bolt"></i></span>
           <span class="streak-count" id="total-count">0</span>
           <span class="streak-label">Total Clicks</span>
         </div>
-        <button class="counter-btn" id="study-btn">✔ I Studied Today!</button>
+        <button class="counter-btn" id="study-btn"><i class="fa-solid fa-check"></i> I Studied Today!</button>
       </div>
     </div>
   </section>

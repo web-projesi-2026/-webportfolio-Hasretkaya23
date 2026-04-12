@@ -1,0 +1,242 @@
+/* ================================================
+   StudyUp – responsive.css  (Tüm Media Query'ler)
+   ================================================ */
+
+/* ── SCROLL TO TOP ───────────────────────────── */
+#scroll-top {
+  position: fixed; bottom: 2rem; right: 2rem;
+  width: 2.5rem; height: 2.5rem;
+  background: var(--blue); color: #080d18;
+  border: none; border-radius: 50%;
+  font-size: 1.1rem; cursor: pointer;
+  opacity: 0; transform: translateY(10px);
+  transition: opacity .3s, transform .3s;
+  z-index: 90;
+  display: flex; align-items: center; justify-content: center;
+}
+#scroll-top.visible { opacity: 1; transform: translateY(0); }
+#scroll-top:hover { background: var(--pink); }
+
+/* ═══════════════════════════════════════════════
+   BREAKPOINT 1 → 1200px (büyük tablet / küçük laptop)
+   ═══════════════════════════════════════════════ */
+@media (max-width: 1200px) {
+  .footer-inner {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+  .footer-brand {
+    grid-column: 1 / -1;
+  }
+}
+
+/* ═══════════════════════════════════════════════
+   BREAKPOINT 2 → 1024px (tablet landscape)
+   ═══════════════════════════════════════════════ */
+@media (max-width: 1024px) {
+  /* Hero: dikey düzen */
+  #hero {
+    flex-direction: column;
+    text-align: center;
+    padding-top: 7rem;
+    min-height: auto;
+    padding-bottom: 4rem;
+  }
+  .hero-content {
+    max-width: 100%;
+  }
+  .hero-actions { justify-content: center; }
+  .hero-chips   { justify-content: center; }
+  .hero-demo    { max-width: 480px; width: 100%; }
+
+  /* Tasks layout: 2 sütundan 1 sütuna */
+  .gorev-layout {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+}
+
+/* ═══════════════════════════════════════════════
+   BREAKPOINT 3 → 768px (tablet portrait / büyük telefon)
+   ═══════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  /* Navbar: linkleri ve auth'u gizle, hamburger göster */
+  .nav-links { display: none; }
+  .nav-auth  { display: none; }
+  .hamburger { display: flex; }
+
+  /* Hero */
+  #hero {
+    padding: 6rem 5% 3rem;
+    gap: 2rem;
+  }
+  #hero h1 { letter-spacing: -.5px; }
+
+  /* Section padding */
+  section[style*="padding:5rem"],
+  section[style*="padding:5.5rem"],
+  section[style*="padding:9rem"] {
+    padding-top: clamp(5rem, 10vw, 6rem) !important;
+    padding-bottom: 3rem !important;
+    padding-left: 5% !important;
+    padding-right: 5% !important;
+  }
+
+  /* Grids: tek sütun */
+  .features-grid { grid-template-columns: 1fr; }
+  .hedef-grid    { grid-template-columns: 1fr; }
+  .rehber-grid   { grid-template-columns: 1fr; }
+
+  /* Footer */
+  .footer-inner {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 2rem 1.5rem 1.5rem;
+  }
+  .footer-brand { grid-column: auto; }
+
+  /* Streak */
+  .streak-wrap { flex-direction: column; }
+
+  /* Auth card */
+  .auth-card { padding: 2rem 1.5rem; }
+
+  /* CTA */
+  #cta { padding: 4rem 5%; }
+  .cta-inner { padding: 2.5rem 1.5rem; }
+
+  /* Scroll top biraz daha içeride */
+  #scroll-top { bottom: 1.2rem; right: 1.2rem; }
+
+  /* Demo card animasyonu küçük ekranda kapat */
+  .demo-card { animation: none; }
+
+  /* Görev demo tam genişlik */
+  .gdemo-add { flex-wrap: nowrap; }
+}
+
+/* ═══════════════════════════════════════════════
+   BREAKPOINT 4 → 600px (küçük tablet / büyük telefon)
+   ═══════════════════════════════════════════════ */
+@media (max-width: 600px) {
+  .nav-inner { padding: .8rem 1rem; }
+
+  /* Hero chip'ler sığsın */
+  .hero-chips { gap: .4rem; }
+  .chip       { font-size: .73rem; padding: .2rem .65rem; }
+
+  /* Hero butonlar */
+  .hero-actions { gap: .75rem; }
+
+  /* Streak box daralt */
+  .streak-box { padding: 1rem 1.5rem; }
+  .streak-count { font-size: 1.6rem; }
+
+  /* Footer padding */
+  .footer-inner { padding: 2rem 1.2rem 1rem; }
+
+  /* Auth card */
+  .auth-card { padding: 1.75rem 1.25rem; border-radius: 16px; }
+}
+
+/* ═══════════════════════════════════════════════
+   BREAKPOINT 5 → 480px (standart telefon)
+   ═══════════════════════════════════════════════ */
+@media (max-width: 480px) {
+  .nav-inner { padding: .75rem .9rem; }
+
+  /* Logo küçük */
+  .logo { font-size: 1.1rem; }
+
+  /* Hero h1 */
+  #hero h1 { font-size: clamp(1.7rem, 8vw, 2.2rem); }
+
+  /* Hero butonlar: tam genişlik dikey */
+  .hero-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+  .hero-actions a,
+  .hero-actions button {
+    text-align: center;
+    width: 100%;
+  }
+
+  /* CTA butonlar dikey */
+  .cta-btns {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .cta-btns a,
+  .cta-btns button {
+    text-align: center;
+  }
+
+  /* Demo card padding azalt */
+  .demo-card { padding: 1.1rem; }
+  .gdemo-card { padding: 1.25rem; }
+
+  /* Auth page padding */
+  .auth-page { padding: 1rem .75rem; }
+
+  /* Mobile menu gap küçük */
+  .mobile-menu { gap: 1.5rem; }
+  .mobile-menu a { font-size: 1.3rem; }
+
+  /* Section title */
+  .section-title { font-size: clamp(1.4rem, 7vw, 1.8rem); }
+
+  /* Feat card padding */
+  .feat-card { padding: 1.4rem; }
+  .rehber-card { padding: 1.4rem; }
+  .hedef-card  { padding: 1.5rem; }
+
+  /* Task input wrap */
+  .gdemo-add { flex-wrap: wrap; }
+  .gdemo-add input { min-width: 0; width: 100%; flex: none; }
+  .gdemo-add-btn { width: 100%; }
+}
+
+/* ═══════════════════════════════════════════════
+   BREAKPOINT 6 → 360px (çok küçük telefon)
+   ═══════════════════════════════════════════════ */
+@media (max-width: 360px) {
+  .logo { font-size: 1rem; }
+  #hero { padding: 5.5rem 4% 2.5rem; }
+  .feat-card { padding: 1.2rem; }
+  .auth-card { padding: 1.5rem 1rem; }
+  .streak-box { padding: .9rem 1.2rem; }
+}
+
+/* ═══════════════════════════════════════════════
+   YARDIMCI: görseller hiçbir zaman taşmasın
+   ═══════════════════════════════════════════════ */
+@media (max-width: 1024px) {
+  img, video, iframe, svg, canvas {
+    max-width: 100%;
+    height: auto;
+  }
+  /* overflow hidden olan kaplarda da güvende kalalım */
+  .demo-card,
+  .gdemo-card,
+  .feat-card,
+  .hedef-card,
+  .rehber-card,
+  .auth-card,
+  .cta-inner {
+    overflow: hidden;
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+}
+
+/* ═══════════════════════════════════════════════
+   PRINT / Erişilebilirlik
+   ═══════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}

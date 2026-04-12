@@ -1,1 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+    <meta name="robots" content="index, follow"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Learn about the StudyUp project – its technologies, development process and course background."/>
+  <meta name="keywords" content="StudyUp, project, web design, course, HTML, CSS, JavaScript, PHP"/>
+  <title>Project – StudyUp</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../assets/css/style.css"/>
+  <style>
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 1.25rem;
+      margin-top: 2rem;
+    }
+    .tech-card {
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 1rem;
+      padding: 1.75rem 1.25rem;
+      text-align: center;
+      transition: border-color .2s, transform .2s;
+    }
+    .tech-card:hover {
+      border-color: var(--blue);
+      transform: translateY(-3px);
+    }
+    .tech-icon {
+      font-size: 2rem;
+      margin-bottom: .75rem;
+    }
+    .tech-name {
+      font-weight: 700;
+      font-size: .95rem;
+      color: var(--text);
+    }
+    .tech-desc {
+      font-size: .8rem;
+      color: var(--muted);
+      margin-top: .35rem;
+      line-height: 1.5;
+    }
+    .timeline {
+      position: relative;
+      padding-left: 2.5rem;
+      margin-top: 2rem;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: .6rem;
+      top: 0; bottom: 0;
+      width: 2px;
+      background: rgba(255,255,255,.08);
+    }
+    .timeline-item {
+      position: relative;
+      margin-bottom: 2rem;
+    }
+    .timeline-dot {
+      position: absolute;
+      left: -2rem;
+      top: .35rem;
+      width: .85rem;
+      height: .85rem;
+      border-radius: 50%;
+      background: var(--blue);
+      border: 2px solid #0f1623;
+    }
+    .timeline-label {
+      font-size: .75rem;
+      color: var(--blue);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: .35rem;
+    }
+    .timeline-title {
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: .4rem;
+      font-size: 1rem;
+    }
+    .timeline-text {
+      color: var(--muted);
+      font-size: .9rem;
+      line-height: 1.65;
+    }
+    .checklist {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: .75rem;
+    }
+    .checklist li {
+      display: flex;
+      align-items: flex-start;
+      gap: .75rem;
+      font-size: .95rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .checklist li span.check {
+      color: #4ade80;
+      font-size: 1rem;
+      flex-shrink: 0;
+      margin-top: .05rem;
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="icon" type="image/png" href="../assets/img/favicon.png"/>
+  <link rel="canonical" href="https://hasretkaya23.github.io/webportfolio/pages/project.html"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content="https://hasretkaya23.github.io/webportfolio/pages/project.html"/>
+  <meta property="og:title" content="Project – StudyUp"/>
+  <meta property="og:description" content="StudyUp Project – technical details and development overview."/>
+  <meta property="og:image" content="https://hasretkaya23.github.io/webportfolio/assets/img/og-cover.jpg"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Project – StudyUp"/>
+  <meta name="twitter:description" content="StudyUp Project – technical details and development overview."/>
+  <meta name="twitter:image" content="https://hasretkaya23.github.io/webportfolio/assets/img/og-cover.jpg"/>
+  <link rel="stylesheet" href="../assets/css/responsive.css"/>
+</head>
+<body>
 
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="../index.html" class="logo">Study<span>Up</span></a>
+      <ul class="nav-links">
+        <li><a href="features.html">Features</a></li>
+        <li><a href="tasks.html">Tasks</a></li>
+        <li><a href="goals.html">Goals</a></li>
+        <li><a href="motivation.html">Motivation</a></li>
+        <li><a href="guide.html">Guide</a></li>
+      </ul>
+      <div class="nav-auth" id="nav-auth">
+        <a href="login.html" class="btn-ghost" id="nav-login-btn">Log In</a>
+        <a href="register.html" class="btn-solid" id="nav-signup-btn">Sign Up</a>
+        <div class="user-menu" id="user-menu" style="display:none;align-items:center;gap:.75rem;">
+          <span id="user-name-el" style="font-size:.85rem;color:var(--blue);font-weight:600;"></span>
+          <button onclick="authLogout()" class="btn-ghost">Log Out</button>
+        </div>
+      </div>
+      <button class="hamburger" id="hamburger-btn" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="features.html">Features</a>
+    <a href="tasks.html">Tasks</a>
+    <a href="goals.html">Goals</a>
+    <a href="motivation.html">Motivation</a>
+    <a href="guide.html">Guide</a>
+    <div class="mobile-auth">
+      <a href="login.html" class="btn-ghost">Log In</a>
+      <a href="register.html" class="btn-solid">Sign Up</a>
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <section style="padding:clamp(6rem,10vw,9rem) clamp(1.2rem,6%,6%) 4rem; max-width:1200px; margin:0 auto; text-align:center;">
+    <div class="section-head reveal">
+      <span class="section-label"><i class="fa-solid fa-screwdriver-wrench"></i> The Project</span>
+      <h2 class="section-title">How StudyUp was built</h2>
+      <p style="max-width:600px; margin:1rem auto 0; color:var(--muted); font-size:1.05rem; line-height:1.7;">
+        StudyUp is a Web Design course project built entirely from scratch using fundamental web technologies — no frameworks, no shortcuts. Here's an inside look at the stack, structure and development journey.
+      </p>
+    </div>
+  </section>
+
+  <!-- TECHNOLOGIES -->
+  <section style="padding:2rem 6% 5rem;">
+    <div style="max-width:1200px; margin:0 auto;">
+      <div class="section-head reveal" style="margin-bottom:0;">
+        <span class="section-label"><i class="fa-solid fa-gear"></i> Tech Stack</span>
+        <h2 class="section-title">Technologies Used</h2>
+      </div>
+      <div class="tech-grid reveal">
+        <div class="tech-card">
+          <div class="tech-icon"><i class="fa-solid fa-globe"></i></div>
+          <div class="tech-name">HTML5</div>
+          <div class="tech-desc">Semantic markup, accessible structure and multi-page layout</div>
+        </div>
+        <div class="tech-card">
+          <div class="tech-icon"><i class="fa-solid fa-palette"></i></div>
+          <div class="tech-name">CSS3</div>
+          <div class="tech-desc">Custom variables, flexbox, grid, media queries and animations</div>
+        </div>
+        <div class="tech-card">
+          <div class="tech-icon"><i class="fa-solid fa-bolt"></i></div>
+          <div class="tech-name">JavaScript</div>
+          <div class="tech-desc">DOM manipulation, event handling, session storage and dynamic UI</div>
+        </div>
+        <div class="tech-card">
+          <div class="tech-icon"><i class="fa-solid fa-database"></i></div>
+          <div class="tech-name">PHP</div>
+          <div class="tech-desc">Server-side login, registration and session management</div>
+        </div>
+        <div class="tech-card">
+          <div class="tech-icon"><i class="fa-solid fa-server"></i></div>
+          <div class="tech-name">MySQL</div>
+          <div class="tech-desc">User data stored and retrieved via a relational database</div>
+        </div>
+        <div class="tech-card">
+          <div class="tech-icon"><i class="fa-solid fa-font"></i></div>
+          <div class="tech-name">Google Fonts</div>
+          <div class="tech-desc">Syne and DM Sans for a modern, clean typography system</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECT REQUIREMENTS + TIMELINE -->
+  <section style="padding:4rem 6%; background:rgba(15,22,35,.7);">
+    <div style="max-width:1200px; margin:0 auto;">
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:3rem; align-items:start;">
+
+        <!-- Requirements checklist -->
+        <div class="reveal">
+          <span class="section-label"><i class="fa-solid fa-clipboard-list"></i> Course Requirements</span>
+          <h2 class="section-title" style="font-size:1.6rem; margin-top:.75rem; margin-bottom:1.5rem;">What the project covers</h2>
+          <ul class="checklist">
+            <li><span class="check"><i class="fa-solid fa-circle-check"></i></span> Multiple HTML pages with consistent navigation</li>
+            <li><span class="check"><i class="fa-solid fa-circle-check"></i></span> Fully responsive design with media queries</li>
+            <li><span class="check"><i class="fa-solid fa-circle-check"></i></span> Hamburger menu for mobile viewports</li>
+            <li><span class="check"><i class="fa-solid fa-circle-check"></i></span> Meta viewport tag on every page</li>
+            <li><span class="check"><i class="fa-solid fa-circle-check"></i></span> CSS custom properties (variables) for theming</li>
+            <li><span class="check"><i class="fa-solid fa-circle-check"></i></span> JavaScript for dynamic UI interactions</li>
+            <li><span class="check"><i class="fa-solid fa-circle-check"></i></span> User registration &amp; login with PHP + MySQL</li>
+            <li><span class="check"><i class="fa-solid fa-circle-check"></i></span> Client-side form validation</li>
+            <li><span class="check"><i class="fa-solid fa-circle-check"></i></span> Scroll animations and reveal effects</li>
+            <li><span class="check"><i class="fa-solid fa-circle-check"></i></span> Accessible HTML with ARIA labels</li>
+            <li><span class="check"><i class="fa-solid fa-circle-check"></i></span> Footer and consistent page structure across all pages</li>
+            <li><span class="check"><i class="fa-solid fa-circle-check"></i></span> Session-based auth state (show/hide login button)</li>
+          </ul>
+        </div>
+
+        <!-- Development timeline -->
+        <div class="reveal">
+          <span class="section-label"><i class="fa-solid fa-calendar-days"></i> Development Timeline</span>
+          <h2 class="section-title" style="font-size:1.6rem; margin-top:.75rem; margin-bottom:.5rem;">How it came together</h2>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-label">Week 1</div>
+              <div class="timeline-title">Planning &amp; Wireframing</div>
+              <div class="timeline-text">Defined the project concept, sitemap and page layout. Sketched wireframes for main pages.</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot" style="background:var(--pink);"></div>
+              <div class="timeline-label">Week 2</div>
+              <div class="timeline-title">HTML Structure &amp; CSS Foundation</div>
+              <div class="timeline-text">Built semantic HTML for all pages, set up CSS variables, navbar, footer and base typography.</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot" style="background:#a78bfa;"></div>
+              <div class="timeline-label">Week 3</div>
+              <div class="timeline-title">Responsive Design &amp; JavaScript</div>
+              <div class="timeline-text">Added media queries, hamburger menu, scroll animations and dynamic JS interactions.</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot" style="background:#4ade80;"></div>
+              <div class="timeline-label">Week 4</div>
+              <div class="timeline-title">PHP Backend &amp; Final Polish</div>
+              <div class="timeline-text">Integrated PHP login/register, connected MySQL database, tested on all screen sizes and submitted.</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- PAGE STRUCTURE -->
+  <section style="padding:clamp(2.5rem,5vw,5rem) clamp(1.2rem,6%,6%);">
+    <div style="max-width:1200px; margin:0 auto;">
+      <div class="section-head reveal" style="text-align:center; margin-bottom:3rem;">
+        <span class="section-label"><i class="fa-solid fa-folder-open"></i> Site Structure</span>
+        <h2 class="section-title">Pages in this project</h2>
+      </div>
+      <div class="features-grid stagger-children reveal" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));">
+        <div class="feat-card feat-blue">
+          <div class="feat-icon"><i class="fa-solid fa-house"></i></div>
+          <h3>Home</h3>
+          <p>Hero section, feature preview, study tips preview and call-to-action.</p>
+        </div>
+        <div class="feat-card feat-green">
+          <div class="feat-icon"><i class="fa-solid fa-bolt"></i></div>
+          <h3>Features</h3>
+          <p>Full list of platform capabilities with icon cards.</p>
+        </div>
+        <div class="feat-card feat-purple">
+          <div class="feat-icon"><i class="fa-solid fa-circle-check"></i></div>
+          <h3>Tasks</h3>
+          <p>Add, view, update and delete study tasks with priority levels.</p>
+        </div>
+        <div class="feat-card feat-pink">
+          <div class="feat-icon"><i class="fa-solid fa-bullseye"></i></div>
+          <h3>Goals</h3>
+          <p>Set short and long-term academic goals with progress tracking.</p>
+        </div>
+        <div class="feat-card feat-yellow">
+          <div class="feat-icon"><i class="fa-solid fa-comment"></i></div>
+          <h3>Motivation</h3>
+          <p>Daily quotes, streak counter and motivation tips.</p>
+        </div>
+        <div class="feat-card feat-teal">
+          <div class="feat-icon"><i class="fa-solid fa-book"></i></div>
+          <h3>Guide</h3>
+          <p>Study techniques like Pomodoro, Active Recall and Spaced Repetition.</p>
+        </div>
+        <div class="feat-card feat-orange">
+          <div class="feat-icon"><i class="fa-solid fa-user"></i></div>
+          <h3>Login &amp; Register</h3>
+          <p>Secure PHP-backed authentication with client-side validation.</p>
+        </div>
+        <div class="feat-card feat-indigo">
+          <div class="feat-icon"><i class="fa-solid fa-screwdriver-wrench"></i></div>
+          <h3>About &amp; Contact</h3>
+          <p>Project background, team info and a contact form.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="cta">
+    <div class="cta-inner reveal">
+      <h2>See it in action —<br/><span class="gradient-text">try StudyUp now.</span></h2>
+      <p>Create a free account and explore everything the platform has to offer.</p>
+      <div class="cta-btns">
+        <a href="register.html" class="btn-primary">Get Started Free <i class="fa-solid fa-rocket"></i></a>
+        <a href="../index.html" class="btn-outline">Back to Home</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="logo">Study<span>Up</span></div>
+        <p>Study Guide Management and Motivation Platform for Students</p>
+      </div>
+      <div class="footer-links-group">
+        <h5>Pages</h5>
+        <a href="features.html">Features</a>
+        <a href="tasks.html">Tasks</a>
+        <a href="goals.html">Goals</a>
+        <a href="motivation.html">Motivation</a>
+        <a href="guide.html">Guide</a>
+      </div>
+      <div class="footer-links-group">
+        <h5>Account</h5>
+        <a href="register.html">Sign Up</a>
+        <a href="login.html">Log In</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 StudyUp · Web Editor Course Project · All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <button id="scroll-top" aria-label="Scroll to top">↑</button>
+  <script src="../assets/js/main.js"></script>
+  <script>
+    (function(){
+      var user = null;
+      try { user = JSON.parse(sessionStorage.getItem("studyup_user")); } catch(e){}
+      var loginBtn  = document.getElementById("nav-login-btn");
+      var signupBtn = document.getElementById("nav-signup-btn");
+      var userMenu  = document.getElementById("user-menu");
+      var userNameEl= document.getElementById("user-name-el");
+      if (user) {
+        if (loginBtn)  loginBtn.style.display  = "none";
+        if (signupBtn) signupBtn.style.display  = "none";
+        if (userMenu)  userMenu.style.display   = "flex";
+        if (userNameEl) userNameEl.textContent  = user.name || user.email;
+      }
+    })();
+    function authLogout() {
+      sessionStorage.removeItem("studyup_user");
+      window.location.reload();
+    }
+  </script>
+</body>
+</html>
