@@ -203,6 +203,107 @@ function initScrollTop() {
   });
 }
 
+/* ── DARK / LIGHT THEME TOGGLE ───────── */
+function initThemeToggle() {
+  var btn = document.getElementById('theme-toggle-btn');
+  if (!btn) return;
+
+  // Kaydedilmiş tercihi uygula
+  if (localStorage.getItem('su_theme') === 'light') {
+    document.body.classList.add('light-mode');
+    btn.innerHTML = '<i class="fa-solid fa-sun"></i>';
+  }
+
+  btn.addEventListener('click', function() {
+    document.body.classList.toggle('light-mode');
+    var isLight = document.body.classList.contains('light-mode');
+    btn.innerHTML = isLight ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
+    localStorage.setItem('su_theme', isLight ? 'light' : 'dark');
+    // Spin animasyonu
+    btn.classList.add('spin');
+    setTimeout(function() { btn.classList.remove('spin'); }, 420);
+  });
+}
+
+/* ── POMODORO TIMER ───────────────────── */
+function initPomodoro() {
+  var timeEl    = document.getElementById('pomo-time');
+  var fillEl    = document.getElementById('pomo-fill');
+  var startBtn  = document.getElementById('pomo-start-btn');
+  var resetBtn  = document.getElementById('pomo-reset-btn');
+  var sessionNumEl  = document.getElementById('pomo-session-num');
+  var sessionLblEl  = document.getElementById('pomo-session-label');
+  var modeBtns  = document.querySelectorAll('.pomo-mode-btn');
+  if (!timeEl || !startBtn) return;
+
+  var totalTime    = 1500;
+  var timeLeft     = totalTime;
+  var isRunning    = false;
+  var interval     = null;
+  var sessionCount = 1;
+
+  function formatTime(s) {
+    var m = Math.floor(s / 60);
+    var sec = s % 60;
+    return (m < 10 ? '0' : '') + m + ':' + (sec < 10 ? '0' : '') + sec;
+  }
+
+  function updateDisplay() {
+    timeEl.textContent = formatTime(timeLeft);
+    var pct = ((totalTime - timeLeft) / totalTime) * 100;
+    fillEl.style.width = (100 - pct) + '%';
+  }
+
+  function stopTimer() {
+    clearInterval(interval);
+    isRunning = false;
+    startBtn.innerHTML = '<i class="fa-solid fa-play"></i> Start';
+  }
+
+  function startTimer() {
+    isRunning = true;
+    startBtn.innerHTML = '<i class="fa-solid fa-pause"></i> Pause';
+    interval = setInterval(function() {
+      timeLeft--;
+      updateDisplay();
+      if (timeLeft <= 0) {
+        stopTimer();
+        sessionCount++;
+        if (sessionNumEl) sessionNumEl.textContent = sessionCount;
+        timeLeft = 0;
+        updateDisplay();
+      }
+    }, 1000);
+  }
+
+  startBtn.addEventListener('click', function() {
+    if (isRunning) { stopTimer(); } else { startTimer(); }
+  });
+
+  resetBtn.addEventListener('click', function() {
+    stopTimer();
+    timeLeft = totalTime;
+    updateDisplay();
+  });
+
+  modeBtns.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      modeBtns.forEach(function(b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      stopTimer();
+      totalTime = parseInt(btn.getAttribute('data-time'));
+      timeLeft  = totalTime;
+      var mode  = btn.getAttribute('data-mode');
+      if (sessionLblEl) {
+        sessionLblEl.textContent = mode === 'pomodoro' ? 'Focus time' : mode === 'short' ? 'Short break' : 'Long break';
+      }
+      updateDisplay();
+    });
+  });
+
+  updateDisplay();
+}
+
 /* ── INIT ─────────────────────────────── */
 document.addEventListener('DOMContentLoaded', function() {
   initActiveNav();
@@ -214,4 +315,6 @@ document.addEventListener('DOMContentLoaded', function() {
   initSmoothScroll();
   initHamburger();
   initScrollTop();
+  initThemeToggle();
+  initPomodoro();
 });
