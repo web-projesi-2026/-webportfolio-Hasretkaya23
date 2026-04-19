@@ -552,3 +552,127 @@ select option { background:var(--surface); }
 /* ── USER MENU ───────────────────────────────── */
 .user-menu { display:none; align-items:center; gap:.75rem; }
 .user-menu .user-name { font-size:.85rem; color:var(--blue); font-weight:600; }
+
+/* ── POMODORO TIMER ──────────────────────────── */
+.pomo-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 2rem 2rem 1.6rem;
+  text-align: center;
+  box-shadow: 0 8px 40px rgba(0,0,0,.35);
+  margin-top: 2rem;
+}
+.pomo-mode-btns {
+  display: flex;
+  gap: .5rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+.pomo-mode-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  border-radius: 8px;
+  padding: .45rem 1.1rem;
+  font-family: var(--font-b);
+  font-size: .82rem;
+  cursor: pointer;
+  transition: all .2s;
+}
+.pomo-mode-btn:hover { border-color: var(--blue); color: var(--blue); }
+.pomo-mode-btn.active { background: var(--blue); border-color: var(--blue); color: #080d18; font-weight: 700; }
+.pomo-display {
+  font-family: var(--font-h);
+  font-size: clamp(3.5rem, 12vw, 5.5rem);
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: .04em;
+  line-height: 1;
+  margin-bottom: 1.4rem;
+}
+.pomo-progress-bar {
+  height: 6px;
+  background: var(--border);
+  border-radius: 99px;
+  overflow: hidden;
+  margin-bottom: 1.8rem;
+}
+.pomo-progress-bar #pomo-fill {
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(90deg, var(--blue), #0ea5e9);
+  border-radius: 99px;
+  transition: width .9s linear;
+}
+.pomo-controls {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1.2rem;
+}
+.pomo-btn-main {
+  background: linear-gradient(135deg, var(--blue), #0ea5e9);
+  color: #080d18;
+  border: none;
+  border-radius: 12px;
+  padding: .85rem 2.8rem;
+  font-family: var(--font-h);
+  font-size: 1rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: opacity .2s, transform .15s;
+  min-width: 140px;
+}
+.pomo-btn-main:hover { opacity: .88; transform: translateY(-1px); }
+.pomo-btn-reset {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  border-radius: 12px;
+  width: 46px;
+  height: 46px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: border-color .2s, color .2s;
+}
+.pomo-btn-reset:hover { border-color: var(--blue); color: var(--blue); }
+.pomo-session-info {
+  font-size: .82rem;
+  color: var(--muted);
+}
+.pomo-session-info span { color: var(--blue); font-weight: 600; }
+
+/* ── DARK / LIGHT THEME TOGGLE ───────────────── */
+body.light-mode {
+  --bg:      #f0f4f8;
+  --surface: #e2e8f0;
+  --card:    #ffffff;
+  --card2:   #f8fafc;
+  --text:    #0f172a;
+  --muted:   #64748b;
+  --border:  rgba(0,0,0,.12);
+}
+body.light-mode #navbar { background: rgba(240,244,248,.92); }
+body.light-mode .mobile-menu { background: #e2e8f0; }
+body.light-mode footer { background: #e2e8f0; }
+
+#theme-toggle-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  border-radius: 8px;
+  width: 38px;
+  height: 38px;
+  font-size: .95rem;
+  cursor: pointer;
+  transition: border-color .2s, color .2s, transform .3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+#theme-toggle-btn:hover { border-color: var(--blue); color: var(--blue); }
+#theme-toggle-btn.spin i { transform: rotate(360deg); transition: transform .4s ease; }
