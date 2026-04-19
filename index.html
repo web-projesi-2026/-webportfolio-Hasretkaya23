@@ -43,6 +43,7 @@
           <button onclick="authLogout()" class="btn-ghost">Log Out</button>
         </div>
       </div>
+      <button id="theme-toggle-btn" aria-label="Toggle theme" title="Toggle Dark/Light Mode"><i class="fa-solid fa-moon"></i></button>
       <button class="hamburger" id="hamburger-btn" aria-label="Menu">
         <span></span><span></span><span></span>
       </button>
@@ -184,6 +185,32 @@
       </div>
       <div style="text-align:center;margin-top:2.5rem;">
         <a href="pages/guide.html" class="btn-outline">See Full Guide →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- POMODORO TIMER -->
+  <section id="pomodoro-section" style="padding:clamp(2.5rem,5vw,5rem) clamp(1.2rem,6%,6%);position:relative;z-index:1;">
+    <div style="max-width:520px;margin:0 auto;">
+      <div class="section-head reveal" style="text-align:center;">
+        <span class="section-label"><i class="fa-solid fa-stopwatch"></i> Pomodoro Timer</span>
+        <h2 class="section-title">Stay focused,<br/>work smarter.</h2>
+      </div>
+      <div class="pomo-card reveal">
+        <div class="pomo-mode-btns">
+          <button class="pomo-mode-btn active" data-mode="pomodoro" data-time="1500">Pomodoro</button>
+          <button class="pomo-mode-btn" data-mode="short" data-time="300">Short Break</button>
+          <button class="pomo-mode-btn" data-mode="long" data-time="900">Long Break</button>
+        </div>
+        <div class="pomo-display">
+          <span id="pomo-time">25:00</span>
+        </div>
+        <div class="pomo-progress-bar"><div id="pomo-fill"></div></div>
+        <div class="pomo-controls">
+          <button id="pomo-start-btn" class="pomo-btn-main"><i class="fa-solid fa-play"></i> Start</button>
+          <button id="pomo-reset-btn" class="pomo-btn-reset"><i class="fa-solid fa-rotate-left"></i></button>
+        </div>
+        <p class="pomo-session-info">Session <span id="pomo-session-num">1</span> · <span id="pomo-session-label">Focus time</span></p>
       </div>
     </div>
   </section>
