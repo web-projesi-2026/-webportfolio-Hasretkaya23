@@ -21,6 +21,17 @@
   <meta name="twitter:description" content="StudyUp Login"/>
   <meta name="twitter:image" content="https://hasretkaya23.github.io/webportfolio/assets/img/og-cover.jpg"/>
   <link rel="stylesheet" href="../assets/css/responsive.css"/>
+<style>
+  .field-error { color:#f87171; font-size:.78rem; margin-top:4px; display:block; min-height:16px; }
+  .input-error  { border-color:#f87171 !important; box-shadow:0 0 0 3px rgba(248,113,113,.15) !important; }
+  .input-ok     { border-color:#34d399 !important; box-shadow:0 0 0 3px rgba(52,211,153,.15) !important; }
+  .auth-submit  { transition: background .25s, color .25s, border-color .25s; }
+  .auth-submit.btn-success { background:#34d399 !important; color:#000 !important; border-color:#34d399 !important; }
+  .auth-submit.btn-error   { background:#f87171 !important; color:#fff !important; border-color:#f87171 !important; }
+  .strength-bars { display:flex; gap:4px; margin-top:6px; }
+  .strength-bar  { flex:1; height:4px; border-radius:4px; background:rgba(255,255,255,.1); transition:background .3s; }
+  .strength-label{ font-size:.72rem; margin-top:3px; }
+</style>
 </head>
 <body>
 
@@ -35,9 +46,13 @@
         <li><a href="motivation.html">Motivation</a></li>
         <li><a href="guide.html">Guide</a></li>
       </ul>
-      <div class="nav-auth">
-        <a href="login.html" class="btn-ghost">Log In</a>
-        <a href="register.html" class="btn-solid">Sign Up</a>
+      <div class="nav-auth" id="nav-auth">
+        <a href="login.html" class="btn-ghost" id="nav-login-btn">Log In</a>
+        <a href="register.html" class="btn-solid" id="nav-signup-btn">Sign Up</a>
+        <div class="user-menu" id="user-menu" style="display:none;align-items:center;gap:.75rem;">
+          <span id="user-name-el" style="font-size:.85rem;color:var(--blue);font-weight:600;"></span>
+          <button onclick="authLogout()" class="btn-ghost">Log Out</button>
+        </div>
       </div>
       <button id="theme-toggle-btn" aria-label="Toggle theme" title="Toggle Dark/Light Mode"><i class="fa-solid fa-moon"></i></button>
       <button class="hamburger" id="hamburger-btn" aria-label="Menu">
@@ -72,12 +87,14 @@
       <form id="login-form" novalidate>
         <div class="form-group">
           <label for="auth-email">Email Address</label>
-          <input type="email" id="auth-email" placeholder="example@mail.com" autocomplete="email"/>
+          <input type="email" id="auth-email" placeholder="example@mail.com" autocomplete="email" required/>
+          <span class="field-error" id="err-email"></span>
         </div>
         <div class="form-group">
           <label for="auth-password">Password</label>
           <div style="position:relative">
-            <input type="password" id="auth-password" placeholder="Your password" style="padding-right:2.8rem" autocomplete="current-password"/>
+            <input type="password" id="auth-password" placeholder="Your password" style="padding-right:2.8rem" autocomplete="current-password" required/>
+            <span class="field-error" id="err-password"></span>
             <button type="button" class="toggle-password" data-target="auth-password"
               style="position:absolute;right:.75rem;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:1rem"><i class="fa-solid fa-eye"></i></button>
           </div>
@@ -94,19 +111,21 @@
 
   <script src="../assets/js/main.js"></script>
   <script>
+    /* ── Nav auth durumu ── */
     (function(){
-      try {
-        var u = JSON.parse(sessionStorage.getItem('studyup_user'));
-        if (u) window.location.href = '../index.html';
-      } catch(e){}
+      var user = null;
+      try { user = JSON.parse(sessionStorage.getItem('studyup_user')); } catch(e){}
+      if (user) { window.location.href = '../index.html'; return; }
     })();
+    function authLogout() { sessionStorage.removeItem('studyup_user'); window.location.reload(); }
 
+    /* ── Şifre göster/gizle ── */
     document.querySelectorAll('.toggle-password').forEach(function(btn){
       btn.addEventListener('click', function(){
         var el = document.getElementById(btn.getAttribute('data-target'));
         if (!el) return;
         el.type = (el.type === 'password') ? 'text' : 'password';
-        btn.textContent = (el.type === 'password') ? '<i class="fa-solid fa-eye"></i>' : '<i class="fa-solid fa-eye-slash"></i>';
+        btn.innerHTML = (el.type === 'password') ? '<i class="fa-solid fa-eye"></i>' : '<i class="fa-solid fa-eye-slash"></i>';
       });
     });
 
@@ -114,36 +133,97 @@
       try { return JSON.parse(localStorage.getItem('studyup_users')) || []; } catch(e){ return []; }
     }
 
+    /* ── Yardımcılar ── */
+    function setErr(inputId, errId, msg) {
+      var el = document.getElementById(inputId);
+      var er = document.getElementById(errId);
+      if(el) { el.classList.add('input-error'); el.classList.remove('input-ok'); }
+      if(er) er.textContent = msg;
+    }
+    function setOk(inputId, errId) {
+      var el = document.getElementById(inputId);
+      var er = document.getElementById(errId);
+      if(el) { el.classList.remove('input-error'); el.classList.add('input-ok'); }
+      if(er) er.textContent = '';
+    }
+    function clearState(inputId, errId) {
+      var el = document.getElementById(inputId);
+      var er = document.getElementById(errId);
+      if(el) { el.classList.remove('input-error','input-ok'); }
+      if(er) er.textContent = '';
+    }
+
+    /* ── Anlık validasyon ── */
+    function attachLive(inputId, errId, validateFn) {
+      var el = document.getElementById(inputId);
+      if (!el) return;
+      var touched = false;
+      el.addEventListener('blur', function(){ touched=true; validateFn(); });
+      el.addEventListener('input', function(){ if(touched) validateFn(); });
+    }
+
+    function validateEmail() {
+      var v = document.getElementById('auth-email').value.trim();
+      var re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!v)        { setErr('auth-email','err-email','Email cannot be empty.'); return false; }
+      if (!re.test(v)){ setErr('auth-email','err-email','Please enter a valid email.'); return false; }
+      setOk('auth-email','err-email'); return true;
+    }
+    function validatePass() {
+      var v = document.getElementById('auth-password').value;
+      if (!v) { setErr('auth-password','err-password','Password cannot be empty.'); return false; }
+      setOk('auth-password','err-password'); return true;
+    }
+
+    attachLive('auth-email',    'err-email',    validateEmail);
+    attachLive('auth-password', 'err-password', validatePass);
+
+    /* ── Form gönder ── */
     document.getElementById('login-form').addEventListener('submit', function(e){
       e.preventDefault();
-      var msgEl  = document.getElementById('auth-message');
-      var btn    = document.getElementById('login-submit-btn');
-      var email  = document.getElementById('auth-email').value.trim();
-      var pass   = document.getElementById('auth-password').value;
+      var okE = validateEmail();
+      var okP = validatePass();
+      var btn = document.getElementById('login-submit-btn');
+      var msgEl = document.getElementById('auth-message');
 
-      msgEl.style.color = '#f87171';
-
-      if (!email || !pass) {
-        msgEl.textContent = '<i class="fa-solid fa-triangle-exclamation"></i> Email and password cannot be empty.';
+      if (!okE || !okP) {
+        btn.classList.add('btn-error');
+        btn.textContent = '✗ Fix the errors';
+        setTimeout(function(){ btn.classList.remove('btn-error'); btn.textContent = 'Log In →'; }, 2000);
         return;
       }
 
       btn.disabled = true;
       btn.textContent = 'Please wait...';
+      msgEl.textContent = '';
 
+      var email = document.getElementById('auth-email').value.trim();
+      var pass  = document.getElementById('auth-password').value;
       var users = getUsers();
       var found = users.find(function(u){ return u.email === email && u.password === pass; });
 
       setTimeout(function(){
         if (found) {
-          sessionStorage.setItem('studyup_user', JSON.stringify({ name: found.name, email: found.email }));
+          /* ✅ Başarılı → YEŞİL */
+          btn.classList.add('btn-success');
+          btn.textContent = '✓ Welcome!';
           msgEl.style.color = '#34d399';
-          msgEl.textContent = '<i class="fa-solid fa-circle-check"></i> Welcome, ' + found.name + '! Redirecting...';
+          msgEl.textContent = 'Welcome back, ' + found.name + '! Redirecting...';
+          sessionStorage.setItem('studyup_user', JSON.stringify({ name: found.name, email: found.email }));
           setTimeout(function(){ window.location.href = '../index.html'; }, 1200);
         } else {
-          msgEl.textContent = '<i class="fa-solid fa-xmark"></i> Incorrect email or password. If you don\'t have an account, sign up.';
-          btn.disabled = false;
-          btn.textContent = 'Log In →';
+          /* ❌ Hatalı → KIRMIZI */
+          btn.classList.add('btn-error');
+          btn.textContent = '✗ Login Failed';
+          msgEl.style.color = '#f87171';
+          msgEl.textContent = 'Incorrect email or password.';
+          document.getElementById('auth-password').value = '';
+          setErr('auth-password','err-password','');
+          setTimeout(function(){
+            btn.classList.remove('btn-error');
+            btn.textContent = 'Log In →';
+            btn.disabled = false;
+          }, 2500);
         }
       }, 700);
     });
