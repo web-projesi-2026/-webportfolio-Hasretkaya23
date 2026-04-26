@@ -112,6 +112,18 @@
       font-weight: 600;
       margin-top: 1rem;
     }
+    .field-error {
+      display: block;
+      font-size: .8rem;
+      color: #f87171;
+      margin-top: .35rem;
+      min-height: 1rem;
+    }
+    .form-group input.input-error,
+    .form-group textarea.input-error,
+    .form-group select.input-error {
+      border-color: #f87171 !important;
+    }
     @media (max-width: 768px) {
       .contact-grid { grid-template-columns: 1fr; }
       .form-row { grid-template-columns: 1fr; }
@@ -243,16 +255,18 @@
           <div class="form-row">
             <div class="form-group">
               <label for="c-name">Full Name</label>
-              <input type="text" id="c-name" placeholder="Your name" />
+              <input type="text" id="c-name" placeholder="Your name" required />
+              <span class="field-error" id="err-name"></span>
             </div>
             <div class="form-group">
               <label for="c-email">Email Address</label>
-              <input type="email" id="c-email" placeholder="you@example.com" />
+              <input type="email" id="c-email" placeholder="you@example.com" required />
+              <span class="field-error" id="err-email"></span>
             </div>
           </div>
           <div class="form-group">
             <label for="c-subject">Subject</label>
-            <select id="c-subject">
+            <select id="c-subject" required>
               <option value="">Select a subject…</option>
               <option>General Question</option>
               <option>Bug Report</option>
@@ -260,10 +274,11 @@
               <option>Account Issue</option>
               <option>Other</option>
             </select>
-          </div>
+            <span class="field-error" id="err-subject"></span>
           <div class="form-group">
             <label for="c-message">Message</label>
-            <textarea id="c-message" placeholder="Write your message here…"></textarea>
+            <textarea id="c-message" placeholder="Write your message here…" required></textarea>
+            <span class="field-error" id="err-message"></span>
           </div>
           <button class="btn-primary" style="width:100%; justify-content:center; border:none; cursor:pointer; font-size:1rem;" onclick="handleContactSubmit()">
             Send Message <i class="fa-solid fa-envelope"></i>
@@ -323,18 +338,55 @@
       sessionStorage.removeItem("studyup_user");
       window.location.reload();
     }
+    function clearErrors() {
+      ['c-name','c-email','c-subject','c-message'].forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el) el.classList.remove('input-error');
+      });
+      ['err-name','err-email','err-subject','err-message'].forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el) el.textContent = '';
+      });
+    }
+    function showError(fieldId, errId, msg) {
+      var field = document.getElementById(fieldId);
+      var err   = document.getElementById(errId);
+      if (field) field.classList.add('input-error');
+      if (err)   err.textContent = msg;
+    }
     function handleContactSubmit() {
+      clearErrors();
       var name    = document.getElementById("c-name").value.trim();
       var email   = document.getElementById("c-email").value.trim();
       var subject = document.getElementById("c-subject").value;
       var message = document.getElementById("c-message").value.trim();
-      if (!name || !email || !subject || !message) {
-        alert("Please fill in all fields before sending.");
-        return;
+      var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      var hasError = false;
+
+      if (!name) {
+        showError('c-name', 'err-name', 'Full name is required.');
+        hasError = true;
       }
+      if (!email) {
+        showError('c-email', 'err-email', 'Email address is required.');
+        hasError = true;
+      } else if (!emailRegex.test(email)) {
+        showError('c-email', 'err-email', 'Please enter a valid email address.');
+        hasError = true;
+      }
+      if (!subject) {
+        showError('c-subject', 'err-subject', 'Please select a subject.');
+        hasError = true;
+      }
+      if (!message) {
+        showError('c-message', 'err-message', 'Message cannot be empty.');
+        hasError = true;
+      }
+      if (hasError) return;
+
       document.getElementById("contact-success").style.display = "block";
-      document.getElementById("c-name").value = "";
-      document.getElementById("c-email").value = "";
+      document.getElementById("c-name").value    = "";
+      document.getElementById("c-email").value   = "";
       document.getElementById("c-subject").value = "";
       document.getElementById("c-message").value = "";
     }
