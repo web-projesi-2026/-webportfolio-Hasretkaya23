@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="StudyUp Study Tools – explore and save your favourite productivity tools."/>
+  <meta name="robots" content="index, follow"/>
+  <title>Study Tools – StudyUp</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../assets/css/style.css"/>
+  <link rel="stylesheet" href="../assets/css/responsive.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="icon" type="image/png" href="../assets/img/favicon.png"/>
+
+  <style>
+    /* ── Tool Tag ── */
+    .tool-tag {
+      display: inline-block;
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      padding: .25rem .65rem;
+      border-radius: 999px;
+      background: rgba(255,255,255,.1);
+      color: var(--blue);
+      margin-bottom: .6rem;
+    }
+
+    /* ── Favori Butonu ── */
+    .fav-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .45rem;
+      margin-top: 1rem;
+      padding: .45rem 1rem;
+      border-radius: 999px;
+      border: 1.5px solid rgba(255,255,255,.18);
+      background: transparent;
+      color: var(--text);
+      font-size: .82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .2s, border-color .2s, color .2s, transform .15s;
+    }
+    .fav-btn:hover {
+      background: rgba(244,114,182,.12);
+      border-color: #f472b6;
+      color: #f472b6;
+    }
+    .fav-btn.fav-active {
+      background: rgba(244,114,182,.18);
+      border-color: #f472b6;
+      color: #f472b6;
+    }
+    .fav-btn.fav-pulse {
+      transform: scale(1.15);
+    }
+
+    /* ── Favori sayaç badge ── */
+    #fav-count {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      width: 1.3rem;
+      height: 1.3rem;
+      border-radius: 50%;
+      background: #f472b6;
+      color: #fff;
+      font-size: .7rem;
+      font-weight: 700;
+      margin-left: .35rem;
+    }
+
+    /* ── Favori Panel Butonu ── */
+    #fav-panel-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .5rem 1.2rem;
+      border-radius: 999px;
+      border: 1.5px solid rgba(255,255,255,.2);
+      background: rgba(255,255,255,.05);
+      color: var(--text);
+      font-size: .88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: border-color .2s, background .2s;
+    }
+    #fav-panel-toggle:hover {
+      border-color: #f472b6;
+      background: rgba(244,114,182,.1);
+    }
+
+    /* ── Favori Panel (dropdown) ── */
+    #fav-panel {
+      position: fixed;
+      top: 80px;
+      right: clamp(1rem, 4%, 2rem);
+      width: min(340px, 92vw);
+      background: var(--card-bg, #1a1a2e);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 1rem;
+      padding: 1.2rem 1.4rem;
+      box-shadow: 0 16px 48px rgba(0,0,0,.4);
+      z-index: 999;
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: max-height .35s ease, opacity .3s ease, padding .3s;
+      pointer-events: none;
+    }
+    #fav-panel.open {
+      max-height: 420px;
+      opacity: 1;
+      pointer-events: all;
+    }
+    #fav-panel h4 {
+      margin: 0 0 .8rem;
+      font-size: 1rem;
+      color: var(--blue);
+    }
+    #fav-panel-list {
+      display: flex;
+      flex-direction: column;
+      gap: .5rem;
+      max-height: 320px;
+      overflow-y: auto;
+    }
+    .fav-panel-item {
+      display: flex;
+      align-items: center;
+      gap: .7rem;
+      padding: .5rem .6rem;
+      border-radius: .5rem;
+      background: rgba(255,255,255,.05);
+      font-size: .88rem;
+    }
+    .fav-panel-item span { flex: 1; }
+    .fav-remove-btn {
+      background: none;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: .9rem;
+      padding: .2rem .4rem;
+      border-radius: .3rem;
+      transition: color .2s, background .2s;
+    }
+    .fav-remove-btn:hover { color: #f87171; background: rgba(248,113,113,.1); }
+
+    /* ── Filtre Butonları ── */
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .6rem;
+      margin: 1.8rem 0 2rem;
+    }
+    .filter-btn {
+      padding: .4rem 1rem;
+      border-radius: 999px;
+      border: 1.5px solid rgba(255,255,255,.15);
+      background: transparent;
+      color: var(--text);
+      font-size: .82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: border-color .2s, background .2s, color .2s;
+    }
+    .filter-btn:hover,
+    .filter-btn.active {
+      border-color: var(--blue);
+      background: rgba(99,102,241,.15);
+      color: var(--blue);
+    }
+
+    /* ── Araç Bar (başlık + fav btn) ── */
+    .tools-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: .5rem;
+    }
+
+    /* ── Kart içi düzen ince ayarı ── */
+    .feat-card { position: relative; }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="../index.html" class="logo">Study<span>Up</span></a>
+      <ul class="nav-links">
+        <li><a href="features.html">Features</a></li>
+        <li><a href="study-tools.html" class="active">Study Tools</a></li>
+        <li><a href="tasks.html">Tasks</a></li>
+        <li><a href="goals.html">Goals</a></li>
+        <li><a href="motivation.html">Motivation</a></li>
+        <li><a href="guide.html">Guide</a></li>
+      </ul>
+      <div class="nav-auth" id="nav-auth">
+        <a href="login.html" class="btn-ghost" id="nav-login-btn">Log In</a>
+        <a href="register.html" class="btn-solid" id="nav-signup-btn">Sign Up</a>
+        <div class="user-menu" id="user-menu" style="display:none;align-items:center;gap:.75rem;">
+          <span id="user-name-el"></span>
+          <button onclick="authLogout()" class="btn-ghost">Log Out</button>
+        </div>
+      </div>
+      <button id="theme-toggle-btn" aria-label="Toggle theme" title="Toggle Dark/Light Mode">
+        <i class="fa-solid fa-moon"></i>
+      </button>
+      <button class="hamburger" id="hamburger-btn" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- MOBİL MENÜ -->
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="features.html">Features</a>
+    <a href="study-tools.html">Study Tools</a>
+    <a href="tasks.html">Tasks</a>
+    <a href="goals.html">Goals</a>
+    <a href="motivation.html">Motivation</a>
+    <a href="guide.html">Guide</a>
+    <div class="mobile-auth">
+      <a href="login.html" class="btn-ghost">Log In</a>
+      <a href="register.html" class="btn-solid">Sign Up</a>
+    </div>
+  </div>
+
+  <!-- FAVORİ PANELİ -->
+  <div id="fav-panel" role="dialog" aria-label="Your Favorites">
+    <h4><i class="fa-solid fa-heart" style="color:#f472b6;"></i> Your Favorites</h4>
+    <div id="fav-panel-list"></div>
+  </div>
+
+  <!-- SAYFA İÇERİĞİ -->
+  <section style="padding:clamp(6rem,10vw,9rem) clamp(1.2rem,6%,6%) clamp(3rem,6vw,5rem);">
+    <div style="max-width:1200px;margin:0 auto;">
+
+      <!-- Başlık -->
+      <div class="section-head reveal">
+        <span class="section-label"><i class="fa-solid fa-toolbox"></i> Study Tools</span>
+        <h2 class="section-title">Discover study<br/>tools &amp; techniques</h2>
+        <p class="section-desc">
+          Browse 12 proven tools loaded from a JSON data source.
+          Save the ones you love — your picks are stored in your browser automatically.
+        </p>
+      </div>
+
+      <!-- Araç Bar: Filtre + Favori Butonu -->
+      <div class="tools-bar">
+        <!-- Kategori Filtresi -->
+        <div class="filter-bar" style="margin:0;">
+          <button class="filter-btn active" data-cat="all">All</button>
+          <button class="filter-btn" data-cat="Productivity">Productivity</button>
+          <button class="filter-btn" data-cat="Study Technique">Study Technique</button>
+          <button class="filter-btn" data-cat="Memory">Memory</button>
+          <button class="filter-btn" data-cat="Focus">Focus</button>
+          <button class="filter-btn" data-cat="Habit Building">Habits</button>
+        </div>
+
+        <!-- Favorilerim Butonu -->
+        <button id="fav-panel-toggle" aria-haspopup="true" aria-expanded="false">
+          <i class="fa-solid fa-heart" style="color:#f472b6;"></i>
+          My Favorites
+          <span id="fav-count"></span>
+        </button>
+      </div>
+
+      <!-- JSON'dan dinamik olarak doldurulacak kart grid'i -->
+      <div class="features-grid" id="tools-grid" style="margin-top:1rem;">
+        <!-- favorites.js tarafından fetch + render edilir -->
+      </div>
+
+      <!-- Bilgi notu -->
+      <div class="reveal" style="
+        margin-top:2.5rem;
+        padding:1.2rem 1.6rem;
+        border-radius:.9rem;
+        border:1px solid rgba(255,255,255,.1);
+        background:rgba(255,255,255,.03);
+        font-size:.88rem;
+        color:var(--muted);
+        display:flex;
+        align-items:flex-start;
+        gap:.8rem;
+      ">
+        <i class="fa-solid fa-circle-info" style="color:var(--blue);margin-top:.15rem;flex-shrink:0;"></i>
+        <span>
+          Cards are loaded dynamically from <code style="color:var(--blue);">data/tools.json</code>.
+          Your favorites are saved with <code style="color:var(--blue);">localStorage</code> and
+          persist even after you close the browser tab.
+        </span>
+      </div>
+
+      <div style="text-align:center;margin-top:3rem;">
+        <a href="register.html" class="btn-primary">Get Started Free <i class="fa-solid fa-rocket"></i></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="../index.html" class="logo">Study<span>Up</span></a>
+        <p>Study Guide Management and Motivation Platform for Students</p>
+      </div>
+      <div class="footer-links-group">
+        <h5>Pages</h5>
+        <a href="features.html">Features</a>
+        <a href="study-tools.html">Study Tools</a>
+        <a href="tasks.html">Tasks</a>
+        <a href="goals.html">Goals</a>
+        <a href="motivation.html">Motivation</a>
+        <a href="guide.html">Guide</a>
+      </div>
+      <div class="footer-links-group">
+        <h5>Account</h5>
+        <a href="register.html">Sign Up</a>
+        <a href="login.html">Log In</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 StudyUp · Web Editor Course Project · All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <button id="scroll-top" aria-label="Scroll to top">↑</button>
+
+  <!-- Script sırası önemli: önce main.js, sonra favorites.js -->
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/favorites.js"></script>
+
+  <!-- Auth durumu -->
+  <script>
+    (function() {
+      var user = null;
+      try { user = JSON.parse(sessionStorage.getItem('studyup_user')); } catch (e) {}
+      var loginBtn  = document.getElementById('nav-login-btn');
+      var signupBtn = document.getElementById('nav-signup-btn');
+      var userMenu  = document.getElementById('user-menu');
+      var userNameEl = document.getElementById('user-name-el');
+      if (user) {
+        if (loginBtn)   loginBtn.style.display  = 'none';
+        if (signupBtn)  signupBtn.style.display  = 'none';
+        if (userMenu)   userMenu.style.display   = 'flex';
+        if (userNameEl) userNameEl.textContent   = user.name || user.email;
+      }
+    })();
+    function authLogout() {
+      sessionStorage.removeItem('studyup_user');
+      window.location.reload();
+    }
+  </script>
+</body>
+</html>
