@@ -1,0 +1,110 @@
+[
+  {
+    "id": 1,
+    "name": "Pomodoro Timer",
+    "category": "Productivity",
+    "icon": "fa-solid fa-clock",
+    "color": "feat-red",
+    "description": "Work in focused 25-minute intervals followed by short breaks. Scientifically proven to boost concentration and reduce mental fatigue.",
+    "tag": "Time Management"
+  },
+  {
+    "id": 2,
+    "name": "Active Recall",
+    "category": "Study Technique",
+    "icon": "fa-solid fa-brain",
+    "color": "feat-blue",
+    "description": "Test yourself on the material instead of re-reading. Forces your brain to retrieve information, strengthening long-term memory.",
+    "tag": "Memory"
+  },
+  {
+    "id": 3,
+    "name": "Spaced Repetition",
+    "category": "Study Technique",
+    "icon": "fa-solid fa-calendar-check",
+    "color": "feat-purple",
+    "description": "Review material at increasing intervals over time. Targets the forgetting curve to lock information into long-term memory.",
+    "tag": "Memory"
+  },
+  {
+    "id": 4,
+    "name": "Mind Mapping",
+    "category": "Organization",
+    "icon": "fa-solid fa-diagram-project",
+    "color": "feat-green",
+    "description": "Visually connect ideas around a central topic. Great for brainstorming, understanding complex subjects and organizing notes.",
+    "tag": "Visual Learning"
+  },
+  {
+    "id": 5,
+    "name": "Feynman Technique",
+    "category": "Study Technique",
+    "icon": "fa-solid fa-chalkboard-user",
+    "color": "feat-yellow",
+    "description": "Explain a concept in simple terms as if teaching a child. If you can't explain it simply, you don't understand it well enough.",
+    "tag": "Deep Learning"
+  },
+  {
+    "id": 6,
+    "name": "Cornell Notes",
+    "category": "Note Taking",
+    "icon": "fa-solid fa-note-sticky",
+    "color": "feat-teal",
+    "description": "Divide your page into cues, notes and summary sections. A structured system that makes review sessions faster and more effective.",
+    "tag": "Organization"
+  },
+  {
+    "id": 7,
+    "name": "Goal Tracker",
+    "category": "Productivity",
+    "icon": "fa-solid fa-bullseye",
+    "color": "feat-orange",
+    "description": "Set short, medium and long-term goals. Break big goals into milestones and celebrate small wins to stay motivated.",
+    "tag": "Motivation"
+  },
+  {
+    "id": 8,
+    "name": "Flashcard System",
+    "category": "Study Technique",
+    "icon": "fa-solid fa-layer-group",
+    "color": "feat-pink",
+    "description": "Create question-answer pairs for quick review. Combine with spaced repetition for maximum retention of facts, vocabulary and formulas.",
+    "tag": "Memory"
+  },
+  {
+    "id": 9,
+    "name": "Focus Music",
+    "category": "Environment",
+    "icon": "fa-solid fa-music",
+    "color": "feat-indigo",
+    "description": "Use lo-fi, binaural beats or white noise while studying. The right background sound can reduce distractions and improve flow state.",
+    "tag": "Focus"
+  },
+  {
+    "id": 10,
+    "name": "Daily Review Log",
+    "category": "Habit Building",
+    "icon": "fa-solid fa-book-open",
+    "color": "feat-blue",
+    "description": "Spend 10 minutes at the end of each day reviewing what you learned. Reflection solidifies understanding and reveals gaps in knowledge.",
+    "tag": "Consistency"
+  },
+  {
+    "id": 11,
+    "name": "Distraction Blocker",
+    "category": "Productivity",
+    "icon": "fa-solid fa-ban",
+    "color": "feat-red",
+    "description": "Block social media and distracting websites during study sessions. Remove temptation to maintain deep focus and protect your study time.",
+    "tag": "Focus"
+  },
+  {
+    "id": 12,
+    "name": "Study Streak",
+    "category": "Habit Building",
+    "icon": "fa-solid fa-fire",
+    "color": "feat-orange",
+    "description": "Track how many consecutive days you study. Streaks build powerful habits through the commitment to not break the chain.",
+    "tag": "Motivation"
+  }
+]
