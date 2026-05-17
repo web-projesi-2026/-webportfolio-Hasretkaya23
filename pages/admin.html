@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Paneli – StudyUp</title>
+  <link rel="icon" type="image/png" href="../assets/img/favicon.png"/>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body { background: #070d1a; color: #e2e8f0; font-family: 'DM Sans', sans-serif; margin: 0; }
+    .admin-wrap { display: flex; min-height: 100vh; }
+    .sidebar { width: 220px; background: rgba(255,255,255,.03); border-right: 1px solid rgba(255,255,255,.08); padding: 2rem 1rem; display: flex; flex-direction: column; gap: .4rem; }
+    .sidebar .logo { font-size: 1.3rem; font-weight: 800; background: linear-gradient(135deg,#6ee7f7,#a78bfa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 1.5rem; display: block; }
+    .sidebar a { display: flex; align-items: center; gap: .6rem; padding: .6rem .9rem; border-radius: 10px; color: #8a9ab5; text-decoration: none; font-size: .875rem; transition: all .2s; }
+    .sidebar a:hover, .sidebar a.active { background: rgba(110,231,247,.08); color: #6ee7f7; }
+    .main { flex: 1; padding: 2rem; }
+    .page-title { font-size: 1.6rem; font-weight: 800; margin-bottom: .25rem; }
+    .page-sub { color: #8a9ab5; font-size: .875rem; margin-bottom: 2rem; }
+    .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px,1fr)); gap: 1rem; margin-bottom: 2rem; }
+    .stat { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); border-radius: 14px; padding: 1.25rem; text-align: center; }
+    .stat .val { font-size: 2rem; font-weight: 800; background: linear-gradient(135deg,#6ee7f7,#a78bfa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .stat .lbl { font-size: .78rem; color: #8a9ab5; margin-top: .25rem; }
+    .card { background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.08); border-radius: 16px; padding: 1.5rem; margin-bottom: 1.5rem; }
+    .card-title { font-size: .95rem; font-weight: 700; margin-bottom: 1rem; display: flex; align-items: center; gap: .5rem; }
+    table { width: 100%; border-collapse: collapse; font-size: .85rem; }
+    th { text-align: left; padding: .6rem .75rem; color: #8a9ab5; border-bottom: 1px solid rgba(255,255,255,.07); font-weight: 500; }
+    td { padding: .65rem .75rem; border-bottom: 1px solid rgba(255,255,255,.04); }
+    .badge { padding: .2rem .6rem; border-radius: 20px; font-size: .72rem; font-weight: 600; }
+    .badge-bekliyor { background: rgba(251,191,36,.12); color: #fbbf24; }
+    .badge-devam { background: rgba(110,231,247,.12); color: #6ee7f7; }
+    .badge-tamamlandi { background: rgba(52,211,153,.12); color: #34d399; }
+    .badge-dusuk { background: rgba(148,163,184,.1); color: #94a3b8; }
+    .badge-orta { background: rgba(251,191,36,.1); color: #fbbf24; }
+    .badge-yuksek { background: rgba(248,113,113,.12); color: #f87171; }
+    .btn-sm { padding: .3rem .7rem; border-radius: 7px; font-size: .78rem; cursor: pointer; border: none; font-family: inherit; }
+    .btn-edit { background: rgba(167,139,250,.15); color: #a78bfa; border: 1px solid rgba(167,139,250,.3); }
+    .btn-del { background: rgba(248,113,113,.1); color: #f87171; border: 1px solid rgba(248,113,113,.25); }
+    .btn-primary { background: linear-gradient(135deg,#6ee7f7,#a78bfa); color: #000; border: none; padding: .6rem 1.2rem; border-radius: 10px; font-weight: 700; font-size: .875rem; cursor: pointer; font-family: inherit; display: inline-flex; align-items: center; gap: .4rem; margin-bottom: 1rem; }
+    input, select, textarea { width: 100%; padding: .6rem .85rem; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1); border-radius: 9px; color: #e2e8f0; font-family: inherit; font-size: .85rem; box-sizing: border-box; margin-bottom: .6rem; outline: none; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
+    .modal-bg { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.75); z-index: 999; align-items: center; justify-content: center; }
+    .modal-box { background: #0d1527; border: 1px solid rgba(255,255,255,.1); border-radius: 18px; padding: 1.75rem; width: 90%; max-width: 480px; }
+    .modal-title { font-size: 1rem; font-weight: 700; margin-bottom: 1rem; }
+    .modal-actions { display: flex; gap: .6rem; margin-top: .5rem; }
+    .new-form { display: none; background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.08); border-radius: 12px; padding: 1.25rem; margin-bottom: 1rem; }
+    .err { color: #f87171; font-size: .78rem; margin-top: .25rem; display: none; }
+  </style>
+</head>
+<body>
+<div class="admin-wrap">
+  <aside class="sidebar">
+    <span class="logo">StudyUp</span>
+    <a href="../index.html"><i class="fa-solid fa-house"></i> Ana Sayfa</a>
+    <a href="#" class="active"><i class="fa-solid fa-gauge"></i> Admin Panel</a>
+    <a href="study-tools.html"><i class="fa-solid fa-toolbox"></i> Study Tools</a>
+    <a href="tasks.html"><i class="fa-solid fa-list-check"></i> Tasks</a>
+  </aside>
+
+  <main class="main">
+    <div class="page-title">Admin Paneli</div>
+    <div class="page-sub">Görev yönetimi — ekleme, düzenleme, silme</div>
+
+    <div class="stats-row">
+      <div class="stat"><div class="val" id="statToplam">0</div><div class="lbl">Toplam Görev</div></div>
+      <div class="stat"><div class="val" id="statBekliyor">0</div><div class="lbl">Bekliyor</div></div>
+      <div class="stat"><div class="val" id="statTamamlandi">0</div><div class="lbl">Tamamlandı</div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><i class="fa-solid fa-list-check" style="color:#6ee7f7;"></i> Görev Yönetimi</div>
+      <button class="btn-primary" id="btnYeni"><i class="fa-solid fa-plus"></i> Yeni Görev Ekle</button>
+
+      <div class="new-form" id="yeniForm">
+        <div class="form-grid">
+          <input id="np_title" placeholder="Görev başlığı *">
+          <select id="np_priority"><option value="dusuk">Düşük</option><option value="orta" selected>Orta</option><option value="yuksek">Yüksek</option></select>
+          <input id="np_desc" placeholder="Açıklama (opsiyonel)" style="grid-column:span 2;">
+          <select id="np_status"><option value="bekliyor">Bekliyor</option><option value="devam">Devam Ediyor</option><option value="tamamlandi">Tamamlandı</option></select>
+        </div>
+        <div style="display:flex;gap:.6rem;margin-top:.25rem;">
+          <button class="btn-primary" id="btnKaydet" style="margin-bottom:0;"><i class="fa-solid fa-check"></i> Kaydet</button>
+          <button class="btn-sm btn-del" id="btnIptal" style="padding:.6rem 1rem;">İptal</button>
+        </div>
+        <p class="err" id="np_hata"></p>
+      </div>
+
+      <table>
+        <thead><tr><th>Görev</th><th>Öncelik</th><th>Durum</th><th style="text-align:center;">İşlem</th></tr></thead>
+        <tbody id="taskTbody"><tr><td colspan="4" style="text-align:center;color:#8a9ab5;padding:2rem;">Yükleniyor...</td></tr></tbody>
+      </table>
+    </div>
+  </main>
+</div>
+
+<!-- Düzenleme Modalı -->
+<div class="modal-bg" id="modalBg">
+  <div class="modal-box">
+    <div class="modal-title">Görevi Düzenle</div>
+    <input type="hidden" id="dp_id">
+    <div class="form-grid">
+      <input id="dp_title" placeholder="Görev başlığı">
+      <select id="dp_priority"><option value="dusuk">Düşük</option><option value="orta">Orta</option><option value="yuksek">Yüksek</option></select>
+      <input id="dp_desc" placeholder="Açıklama" style="grid-column:span 2;">
+      <select id="dp_status"><option value="bekliyor">Bekliyor</option><option value="devam">Devam Ediyor</option><option value="tamamlandi">Tamamlandı</option></select>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-primary" id="btnGuncelle" style="margin-bottom:0;"><i class="fa-solid fa-check"></i> Güncelle</button>
+      <button class="btn-sm btn-del" id="btnModalKapat" style="padding:.6rem 1rem;">İptal</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const API = '../php/tasks.php';
+
+function badgeDurum(d) {
+  const map = { bekliyor:'badge-bekliyor', devam:'badge-devam', tamamlandi:'badge-tamamlandi' };
+  const label = { bekliyor:'Bekliyor', devam:'Devam Ediyor', tamamlandi:'Tamamlandı' };
+  return `<span class="badge ${map[d]||''}">${label[d]||d}</span>`;
+}
+function badgeOnc(p) {
+  const map = { dusuk:'badge-dusuk', orta:'badge-orta', yuksek:'badge-yuksek' };
+  const label = { dusuk:'Düşük', orta:'Orta', yuksek:'Yüksek' };
+  return `<span class="badge ${map[p]||''}">${label[p]||p}</span>`;
+}
+
+async function gorevleriYukle() {
+  const res = await fetch(API);
+  const json = await res.json();
+  const tasks = json.data || [];
+  document.getElementById('statToplam').textContent = tasks.length;
+  document.getElementById('statBekliyor').textContent = tasks.filter(t => t.status === 'bekliyor').length;
+  document.getElementById('statTamamlandi').textContent = tasks.filter(t => t.status === 'tamamlandi').length;
+  const tbody = document.getElementById('taskTbody');
+  if (!tasks.length) { tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:#8a9ab5;padding:2rem;">Henüz görev yok.</td></tr>'; return; }
+  tbody.innerHTML = tasks.map(t => `
+    <tr>
+      <td style="font-weight:600;">${t.title}${t.description ? '<br><span style="font-size:.78rem;color:#8a9ab5;font-weight:400;">' + t.description + '</span>' : ''}</td>
+      <td>${badgeOnc(t.priority)}</td>
+      <td>${badgeDurum(t.status)}</td>
+      <td style="text-align:center;">
+        <div style="display:flex;gap:6px;justify-content:center;">
+          <button class="btn-sm btn-edit" onclick="duzenleAc(${t.id},'${t.title}','${t.description||''}','${t.status}','${t.priority}')"><i class="fa-solid fa-pen"></i> Düzenle</button>
+          <button class="btn-sm btn-del" onclick="gorevSil(${t.id})"><i class="fa-solid fa-trash"></i> Sil</button>
+        </div>
+      </td>
+    </tr>`).join('');
+}
+
+async function gorevSil(id) {
+  if (!confirm('Bu görev silinsin mi?')) return;
+  await fetch(API, { method: 'DELETE', headers: {'Content-Type':'application/json'}, body: JSON.stringify({id}) });
+  gorevleriYukle();
+}
+
+function duzenleAc(id, title, desc, status, priority) {
+  document.getElementById('dp_id').value = id;
+  document.getElementById('dp_title').value = title;
+  document.getElementById('dp_desc').value = desc;
+  document.getElementById('dp_status').value = status;
+  document.getElementById('dp_priority').value = priority;
+  document.getElementById('modalBg').style.display = 'flex';
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  gorevleriYukle();
+
+  document.getElementById('btnYeni').addEventListener('click', () => {
+    const f = document.getElementById('yeniForm');
+    f.style.display = f.style.display === 'none' ? 'block' : 'none';
+  });
+  document.getElementById('btnIptal').addEventListener('click', () => {
+    document.getElementById('yeniForm').style.display = 'none';
+  });
+
+  document.getElementById('btnKaydet').addEventListener('click', async () => {
+    const title = document.getElementById('np_title').value.trim();
+    if (!title) { const e = document.getElementById('np_hata'); e.textContent = 'Başlık zorunlu.'; e.style.display='block'; return; }
+    await fetch(API, { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({
+      title, description: document.getElementById('np_desc').value.trim(),
+      status: document.getElementById('np_status').value,
+      priority: document.getElementById('np_priority').value
+    })});
+    document.getElementById('yeniForm').style.display = 'none';
+    document.getElementById('np_title').value = '';
+    document.getElementById('np_desc').value = '';
+    document.getElementById('np_hata').style.display = 'none';
+    gorevleriYukle();
+  });
+
+  document.getElementById('btnGuncelle').addEventListener('click', async () => {
+    const id = parseInt(document.getElementById('dp_id').value);
+    await fetch(API, { method: 'PUT', headers: {'Content-Type':'application/json'}, body: JSON.stringify({
+      id, title: document.getElementById('dp_title').value.trim(),
+      description: document.getElementById('dp_desc').value.trim(),
+      status: document.getElementById('dp_status').value,
+      priority: document.getElementById('dp_priority').value
+    })});
+    document.getElementById('modalBg').style.display = 'none';
+    gorevleriYukle();
+  });
+
+  document.getElementById('btnModalKapat').addEventListener('click', () => {
+    document.getElementById('modalBg').style.display = 'none';
+  });
+});
+</script>
+</body>
+</html>

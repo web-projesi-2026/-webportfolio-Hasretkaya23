@@ -186,6 +186,106 @@
 
     /* ── Kart içi düzen ince ayarı ── */
     .feat-card { position: relative; }
+
+    /* ── Arama Kutusu ── */
+    .search-bar-wrap {
+      margin: 2rem 0 1.2rem;
+    }
+    .search-input-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .search-icon {
+      position: absolute;
+      left: 1.1rem;
+      color: var(--muted);
+      font-size: 1rem;
+      pointer-events: none;
+      transition: color .2s;
+    }
+    #tools-search {
+      width: 100%;
+      padding: .85rem 3rem .85rem 2.8rem;
+      border-radius: 999px;
+      border: 1.5px solid rgba(255,255,255,.15);
+      background: rgba(255,255,255,.05);
+      color: var(--text);
+      font-size: .95rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color .25s, background .25s, box-shadow .25s;
+    }
+    #tools-search::placeholder {
+      color: var(--muted);
+    }
+    #tools-search:focus {
+      border-color: var(--blue);
+      background: rgba(99,102,241,.07);
+      box-shadow: 0 0 0 3px rgba(99,102,241,.18);
+    }
+    #tools-search:focus + #search-clear-btn,
+    .search-input-wrap:focus-within .search-icon {
+      color: var(--blue);
+    }
+    #search-clear-btn {
+      position: absolute;
+      right: .9rem;
+      background: rgba(255,255,255,.08);
+      border: none;
+      color: var(--muted);
+      width: 1.8rem;
+      height: 1.8rem;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .8rem;
+      transition: background .2s, color .2s;
+    }
+    #search-clear-btn:hover {
+      background: rgba(248,113,113,.18);
+      color: #f87171;
+    }
+    #search-results-info {
+      margin: .7rem 0 0 1rem;
+      font-size: .82rem;
+      color: var(--muted);
+    }
+    #search-results-info span {
+      color: var(--blue);
+      font-weight: 600;
+    }
+
+    /* Eşleşen metni vurgula */
+    .search-highlight {
+      background: rgba(99,102,241,.28);
+      color: var(--blue);
+      border-radius: 3px;
+      padding: 0 2px;
+    }
+
+    /* Sonuç bulunamadı */
+    .no-results-msg {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 3rem 1rem;
+      color: var(--muted);
+    }
+    .no-results-msg i {
+      display: block;
+      font-size: 2.5rem;
+      margin-bottom: .8rem;
+      color: rgba(99,102,241,.4);
+    }
+    .no-results-msg p {
+      font-size: .95rem;
+      margin: 0;
+    }
+    .no-results-msg strong {
+      color: var(--text);
+    }
   </style>
 </head>
 <body>
@@ -253,8 +353,34 @@
         </p>
       </div>
 
+      <!-- Arama Kutusu -->
+      <div class="search-bar-wrap reveal">
+        <div class="search-input-wrap">
+          <i class="fa-solid fa-magnifying-glass search-icon"></i>
+          <input
+            type="text"
+            id="tools-search"
+            placeholder="Search tools... (e.g. Pomodoro, Memory)"
+            autocomplete="off"
+            aria-label="Search study tools"
+          />
+          <button id="search-clear-btn" title="Clear search" aria-label="Clear search" style="display:none;">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+        <p id="search-results-info" style="display:none;"></p>
+      </div>
+
       <!-- Araç Bar: Filtre + Favori Butonu -->
       <div class="tools-bar">
+        <!-- Sıralama -->
+        <select id="sortSelect" style="padding:8px 14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:10px;color:#fff;font-family:inherit;font-size:.85rem;outline:none;cursor:pointer;">
+          <option value="default">Varsayılan Sıra</option>
+          <option value="name-asc">İsim A → Z</option>
+          <option value="name-desc">İsim Z → A</option>
+          <option value="cat">Kategoriye Göre</option>
+        </select>
+
         <!-- Kategori Filtresi -->
         <div class="filter-bar" style="margin:0;">
           <button class="filter-btn active" data-cat="all">All</button>
@@ -358,6 +484,28 @@
       sessionStorage.removeItem('studyup_user');
       window.location.reload();
     }
-  </script>
+  
+  // Sıralama
+  const sortSelect = document.getElementById('sortSelect');
+  if (sortSelect) {
+    sortSelect.addEventListener('change', function() {
+      const val = this.value;
+      const grid = document.getElementById('tools-grid');
+      if (!grid) return;
+      const cards = [...grid.querySelectorAll('.tool-card')];
+      cards.sort((a, b) => {
+        const nameA = (a.querySelector('.tool-name') || a.querySelector('h3'))?.textContent.trim() || '';
+        const nameB = (b.querySelector('.tool-name') || b.querySelector('h3'))?.textContent.trim() || '';
+        const catA = a.dataset.cat || '';
+        const catB = b.dataset.cat || '';
+        if (val === 'name-asc') return nameA.localeCompare(nameB);
+        if (val === 'name-desc') return nameB.localeCompare(nameA);
+        if (val === 'cat') return catA.localeCompare(catB);
+        return 0;
+      });
+      cards.forEach(c => grid.appendChild(c));
+    });
+  }
+</script>
 </body>
 </html>

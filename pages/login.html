@@ -2,36 +2,23 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
-    <meta name="description" content="StudyUp Login"/>
-    <meta name="robots" content="noindex, nofollow"/>
+  <meta name="description" content="StudyUp Login"/>
+  <meta name="robots" content="noindex, nofollow"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Log In – StudyUp</title>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="../assets/css/style.css"/>
+  <link rel="stylesheet" href="../assets/css/responsive.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <link rel="icon" type="image/png" href="../assets/img/favicon.png"/>
-  <link rel="canonical" href="https://hasretkaya23.github.io/webportfolio/pages/login.html"/>
-  <meta property="og:type" content="website"/>
-  <meta property="og:url" content="https://hasretkaya23.github.io/webportfolio/pages/login.html"/>
-  <meta property="og:title" content="Login – StudyUp"/>
-  <meta property="og:description" content="StudyUp Login"/>
-  <meta property="og:image" content="https://hasretkaya23.github.io/webportfolio/assets/img/og-cover.jpg"/>
-  <meta name="twitter:card" content="summary_large_image"/>
-  <meta name="twitter:title" content="Login – StudyUp"/>
-  <meta name="twitter:description" content="StudyUp Login"/>
-  <meta name="twitter:image" content="https://hasretkaya23.github.io/webportfolio/assets/img/og-cover.jpg"/>
-  <link rel="stylesheet" href="../assets/css/responsive.css"/>
-<style>
-  .field-error { color:#f87171; font-size:.78rem; margin-top:4px; display:block; min-height:16px; }
-  .input-error  { border-color:#f87171 !important; box-shadow:0 0 0 3px rgba(248,113,113,.15) !important; }
-  .input-ok     { border-color:#34d399 !important; box-shadow:0 0 0 3px rgba(52,211,153,.15) !important; }
-  .auth-submit  { transition: background .25s, color .25s, border-color .25s; }
-  .auth-submit.btn-success { background:#34d399 !important; color:#000 !important; border-color:#34d399 !important; }
-  .auth-submit.btn-error   { background:#f87171 !important; color:#fff !important; border-color:#f87171 !important; }
-  .strength-bars { display:flex; gap:4px; margin-top:6px; }
-  .strength-bar  { flex:1; height:4px; border-radius:4px; background:rgba(255,255,255,.1); transition:background .3s; }
-  .strength-label{ font-size:.72rem; margin-top:3px; }
-</style>
+  <style>
+    .field-error { color:#f87171; font-size:.78rem; margin-top:4px; display:block; min-height:16px; }
+    .input-error  { border-color:#f87171 !important; box-shadow:0 0 0 3px rgba(248,113,113,.15) !important; }
+    .input-ok     { border-color:#34d399 !important; box-shadow:0 0 0 3px rgba(52,211,153,.15) !important; }
+    .auth-submit  { transition: background .25s, color .25s, border-color .25s; }
+    .auth-submit.btn-success { background:#34d399 !important; color:#000 !important; border-color:#34d399 !important; }
+    .auth-submit.btn-error   { background:#f87171 !important; color:#fff !important; border-color:#f87171 !important; }
+  </style>
 </head>
 <body>
 
@@ -41,6 +28,7 @@
       <a href="../index.html" class="logo">Study<span>Up</span></a>
       <ul class="nav-links">
         <li><a href="features.html">Features</a></li>
+        <li><a href="study-tools.html">Study Tools</a></li>
         <li><a href="tasks.html">Tasks</a></li>
         <li><a href="goals.html">Goals</a></li>
         <li><a href="motivation.html">Motivation</a></li>
@@ -54,7 +42,7 @@
           <button onclick="authLogout()" class="btn-ghost">Log Out</button>
         </div>
       </div>
-      <button id="theme-toggle-btn" aria-label="Toggle theme" title="Toggle Dark/Light Mode"><i class="fa-solid fa-moon"></i></button>
+      <button id="theme-toggle-btn" aria-label="Toggle theme"><i class="fa-solid fa-moon"></i></button>
       <button class="hamburger" id="hamburger-btn" aria-label="Menu">
         <span></span><span></span><span></span>
       </button>
@@ -64,6 +52,7 @@
   <!-- MOBILE MENU -->
   <div class="mobile-menu" id="mobile-menu">
     <a href="features.html">Features</a>
+    <a href="study-tools.html">Study Tools</a>
     <a href="tasks.html">Tasks</a>
     <a href="goals.html">Goals</a>
     <a href="motivation.html">Motivation</a>
@@ -94,10 +83,12 @@
           <label for="auth-password">Password</label>
           <div style="position:relative">
             <input type="password" id="auth-password" placeholder="Your password" style="padding-right:2.8rem" autocomplete="current-password" required/>
-            <span class="field-error" id="err-password"></span>
             <button type="button" class="toggle-password" data-target="auth-password"
-              style="position:absolute;right:.75rem;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:1rem"><i class="fa-solid fa-eye"></i></button>
+              style="position:absolute;right:.75rem;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:1rem">
+              <i class="fa-solid fa-eye"></i>
+            </button>
           </div>
+          <span class="field-error" id="err-password"></span>
         </div>
         <button type="submit" class="auth-submit" id="login-submit-btn">Log In →</button>
         <p id="auth-message" style="margin-top:.75rem;font-size:.9rem;text-align:center;min-height:1.2em;"></p>
@@ -109,64 +100,52 @@
     </div>
   </div>
 
+  <button id="scroll-top" aria-label="Scroll to top">↑</button>
+
   <script src="../assets/js/main.js"></script>
   <script>
-    /* ── Nav auth durumu ── */
+    /* Zaten giriş yapmışsa ana sayfaya at */
     (function(){
       var user = null;
       try { user = JSON.parse(sessionStorage.getItem('studyup_user')); } catch(e){}
-      if (user) { window.location.href = '../index.html'; return; }
+      if (user) { window.location.href = '../index.html'; }
     })();
+
     function authLogout() { sessionStorage.removeItem('studyup_user'); window.location.reload(); }
 
-    /* ── Şifre göster/gizle ── */
+    /* Şifre göster/gizle */
     document.querySelectorAll('.toggle-password').forEach(function(btn){
       btn.addEventListener('click', function(){
         var el = document.getElementById(btn.getAttribute('data-target'));
         if (!el) return;
         el.type = (el.type === 'password') ? 'text' : 'password';
-        btn.innerHTML = (el.type === 'password') ? '<i class="fa-solid fa-eye"></i>' : '<i class="fa-solid fa-eye-slash"></i>';
+        btn.innerHTML = (el.type === 'password')
+          ? '<i class="fa-solid fa-eye"></i>'
+          : '<i class="fa-solid fa-eye-slash"></i>';
       });
     });
 
-    function getUsers() {
-      try { return JSON.parse(localStorage.getItem('studyup_users')) || []; } catch(e){ return []; }
-    }
-
-    /* ── Yardımcılar ── */
+    /* Validasyon yardımcıları */
     function setErr(inputId, errId, msg) {
-      var el = document.getElementById(inputId);
-      var er = document.getElementById(errId);
-      if(el) { el.classList.add('input-error'); el.classList.remove('input-ok'); }
-      if(er) er.textContent = msg;
+      var el = document.getElementById(inputId), er = document.getElementById(errId);
+      if (el) { el.classList.add('input-error'); el.classList.remove('input-ok'); }
+      if (er) er.textContent = msg;
     }
     function setOk(inputId, errId) {
-      var el = document.getElementById(inputId);
-      var er = document.getElementById(errId);
-      if(el) { el.classList.remove('input-error'); el.classList.add('input-ok'); }
-      if(er) er.textContent = '';
+      var el = document.getElementById(inputId), er = document.getElementById(errId);
+      if (el) { el.classList.remove('input-error'); el.classList.add('input-ok'); }
+      if (er) er.textContent = '';
     }
-    function clearState(inputId, errId) {
-      var el = document.getElementById(inputId);
-      var er = document.getElementById(errId);
-      if(el) { el.classList.remove('input-error','input-ok'); }
-      if(er) er.textContent = '';
-    }
-
-    /* ── Anlık validasyon ── */
-    function attachLive(inputId, errId, validateFn) {
-      var el = document.getElementById(inputId);
-      if (!el) return;
+    function attachLive(inputId, errId, fn) {
+      var el = document.getElementById(inputId); if (!el) return;
       var touched = false;
-      el.addEventListener('blur', function(){ touched=true; validateFn(); });
-      el.addEventListener('input', function(){ if(touched) validateFn(); });
+      el.addEventListener('blur',  function(){ touched = true; fn(); });
+      el.addEventListener('input', function(){ if (touched) fn(); });
     }
-
     function validateEmail() {
       var v = document.getElementById('auth-email').value.trim();
-      var re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!v)        { setErr('auth-email','err-email','Email cannot be empty.'); return false; }
-      if (!re.test(v)){ setErr('auth-email','err-email','Please enter a valid email.'); return false; }
+      if (!v) { setErr('auth-email','err-email','Email cannot be empty.'); return false; }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) { setErr('auth-email','err-email','Please enter a valid email.'); return false; }
       setOk('auth-email','err-email'); return true;
     }
     function validatePass() {
@@ -174,60 +153,58 @@
       if (!v) { setErr('auth-password','err-password','Password cannot be empty.'); return false; }
       setOk('auth-password','err-password'); return true;
     }
-
     attachLive('auth-email',    'err-email',    validateEmail);
     attachLive('auth-password', 'err-password', validatePass);
 
-    /* ── Form gönder ── */
+    /* Form gönder → PHP'ye fetch */
     document.getElementById('login-form').addEventListener('submit', function(e){
       e.preventDefault();
-      var okE = validateEmail();
-      var okP = validatePass();
-      var btn = document.getElementById('login-submit-btn');
+      if (!validateEmail() | !validatePass()) return;
+
+      var btn   = document.getElementById('login-submit-btn');
       var msgEl = document.getElementById('auth-message');
-
-      if (!okE || !okP) {
-        btn.classList.add('btn-error');
-        btn.textContent = '✗ Fix the errors';
-        setTimeout(function(){ btn.classList.remove('btn-error'); btn.textContent = 'Log In →'; }, 2000);
-        return;
-      }
-
       btn.disabled = true;
       btn.textContent = 'Please wait...';
       msgEl.textContent = '';
 
       var email = document.getElementById('auth-email').value.trim();
       var pass  = document.getElementById('auth-password').value;
-      var users = getUsers();
-      var found = users.find(function(u){ return u.email === email && u.password === pass; });
 
-      setTimeout(function(){
-        if (found) {
-          /* ✅ Başarılı → YEŞİL */
+      fetch('http://localhost/StudyUp/php/login.php', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({ email: email, password: pass })
+      })
+      .then(function(res){ return res.json(); })
+      .then(function(data){
+        if (data.success) {
           btn.classList.add('btn-success');
           btn.textContent = '✓ Welcome!';
           msgEl.style.color = '#34d399';
-          msgEl.textContent = 'Welcome back, ' + found.name + '! Redirecting...';
-          sessionStorage.setItem('studyup_user', JSON.stringify({ name: found.name, email: found.email }));
+          msgEl.textContent = data.message;
+          var userInfo = { name: (data.name || email), email: email };
+          sessionStorage.setItem('studyup_user', JSON.stringify(userInfo));
           setTimeout(function(){ window.location.href = '../index.html'; }, 1200);
         } else {
-          /* ❌ Hatalı → KIRMIZI */
           btn.classList.add('btn-error');
           btn.textContent = '✗ Login Failed';
           msgEl.style.color = '#f87171';
-          msgEl.textContent = 'Incorrect email or password.';
+          msgEl.textContent = data.message || 'Incorrect email or password.';
           document.getElementById('auth-password').value = '';
-          setErr('auth-password','err-password','');
           setTimeout(function(){
             btn.classList.remove('btn-error');
             btn.textContent = 'Log In →';
             btn.disabled = false;
           }, 2500);
         }
-      }, 700);
+      })
+      .catch(function(err){
+        msgEl.style.color = '#f87171';
+        msgEl.textContent = '⚠️ Sunucuya baglanilamiyor. XAMPP calisiyor mu?';
+        btn.textContent = 'Log In →';
+        btn.disabled = false;
+      });
     });
   </script>
-  <button id="scroll-top" aria-label="Scroll to top">↑</button>
 </body>
 </html>
