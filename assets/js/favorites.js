@@ -200,12 +200,144 @@ function initStudyTools() {
       initFilter(tools);
       initFavPanel(tools);
       updateFavCount();
+      initSearch(tools);   // ← Arama başlat
     })
     .catch(function(err) {
       grid.innerHTML = '<p style="color:#f87171;text-align:center;grid-column:1/-1;">' +
         '<i class="fa-solid fa-triangle-exclamation"></i> ' + err.message + '</p>';
       console.error('StudyUp favorites.js:', err);
     });
+}
+
+/* ── ARAMA ──────────────────────────────────────── */
+function initSearch(allTools) {
+  var input      = document.getElementById('tools-search');
+  var clearBtn   = document.getElementById('search-clear-btn');
+  var infoEl     = document.getElementById('search-results-info');
+  var filterBtns = document.querySelectorAll('.filter-btn');
+  if (!input) return;
+
+  // Metni vurgula
+  function highlight(text, query) {
+    if (!query) return text;
+    var escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    return text.replace(new RegExp('(' + escaped + ')', 'gi'),
+      '<mark class="search-highlight">$1</mark>');
+  }
+
+  // Arama sonucu kartlarını çiz (highlight ile)
+  function renderSearchCards(tools, query) {
+    var grid = document.getElementById('tools-grid');
+    if (!grid) return;
+
+    if (tools.length === 0) {
+      grid.innerHTML =
+        '<div class="no-results-msg">' +
+          '<i class="fa-solid fa-magnifying-glass"></i>' +
+          '<p>No results for <strong>"' + query + '"</strong>.<br/>Try a different keyword.</p>' +
+        '</div>';
+      return;
+    }
+
+    var fav = isFavorite; // mevcut fonksiyon
+    grid.innerHTML = tools.map(function(tool) {
+      var isFav = fav(tool.id);
+      return (
+        '<div class="feat-card ' + tool.color + ' tool-card" data-id="' + tool.id + '">' +
+          '<div class="feat-icon"><i class="' + tool.icon + '"></i></div>' +
+          '<div class="tool-tag">' + highlight(tool.tag, query) + '</div>' +
+          '<h3>' + highlight(tool.name, query) + '</h3>' +
+          '<p>' + highlight(tool.description, query) + '</p>' +
+          '<button ' +
+            'class="fav-btn' + (isFav ? ' fav-active' : '') + '" ' +
+            'data-id="' + tool.id + '" ' +
+            'title="' + (isFav ? 'Remove from Favorites' : 'Add to Favorites') + '" ' +
+            'aria-label="' + (isFav ? 'Remove from Favorites' : 'Add to Favorites') + '">' +
+            '<i class="' + (isFav ? 'fa-solid' : 'fa-regular') + ' fa-heart"></i> ' +
+            '<span>' + (isFav ? 'Saved' : 'Save') + '</span>' +
+          '</button>' +
+        '</div>'
+      );
+    }).join('');
+
+    // Favori butonlarını yeniden bağla
+    grid.querySelectorAll('.fav-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var id = parseInt(btn.getAttribute('data-id'));
+        toggleFavorite(id);
+        syncCardButton(id, tools);
+        renderFavPanel(allTools);
+        updateFavCount();
+        btn.classList.add('fav-pulse');
+        setTimeout(function() { btn.classList.remove('fav-pulse'); }, 400);
+      });
+    });
+  }
+
+  // Bilgi metnini güncelle
+  function updateInfo(query, count, total) {
+    if (!infoEl) return;
+    if (!query) {
+      infoEl.style.display = 'none';
+      return;
+    }
+    infoEl.style.display = 'block';
+    infoEl.innerHTML = '<span>' + count + '</span> of ' + total + ' tools match "<strong>' + query + '</strong>"';
+  }
+
+  // Arama uygula
+  function applySearch(raw) {
+    var query = raw.trim().toLowerCase();
+
+    // Temizle butonu göster/gizle
+    if (clearBtn) clearBtn.style.display = query ? 'flex' : 'none';
+
+    // Aktif kategori filtresini sıfırla
+    filterBtns.forEach(function(b) { b.classList.remove('active'); });
+    var allBtn = document.querySelector('.filter-btn[data-cat="all"]');
+    if (allBtn) allBtn.classList.add('active');
+
+    if (!query) {
+      renderCards(allTools);           // normal render (highlight yok)
+      updateInfo('', 0, allTools.length);
+      return;
+    }
+
+    var filtered = allTools.filter(function(t) {
+      return (
+        t.name.toLowerCase().includes(query) ||
+        t.description.toLowerCase().includes(query) ||
+        t.category.toLowerCase().includes(query) ||
+        t.tag.toLowerCase().includes(query)
+      );
+    });
+
+    renderSearchCards(filtered, raw.trim());
+    updateInfo(raw.trim(), filtered.length, allTools.length);
+  }
+
+  // Input olayı
+  input.addEventListener('input', function() {
+    applySearch(input.value);
+  });
+
+  // Temizle butonu
+  if (clearBtn) {
+    clearBtn.addEventListener('click', function() {
+      input.value = '';
+      applySearch('');
+      input.focus();
+    });
+  }
+
+  // Kategori filtresi tıklandığında aramayı temizle
+  filterBtns.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      input.value = '';
+      if (clearBtn) clearBtn.style.display = 'none';
+      if (infoEl)   infoEl.style.display   = 'none';
+    });
+  });
 }
 
 /* ── DOMContentLoaded'da başlat ─────────────────── */

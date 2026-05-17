@@ -1,15 +1,19 @@
 <?php
-// ================================================
-// StudyUp – Giriş (Login) Endpoint
-// php/login.php
-// ================================================
+ini_set('display_errors', 0);
+error_reporting(0);
+
+header('Content-Type: application/json');
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: POST, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type');
+
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') { http_response_code(200); exit; }
 
 require_once __DIR__ . '/config.php';
 
-header('Content-Type: application/json');
-
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    jsonResponse(false, 'Geçersiz istek metodu.');
+    echo json_encode(['success' => false, 'message' => 'Gecersiz istek metodu.']);
+    exit;
 }
 
 $input    = json_decode(file_get_contents('php://input'), true);
@@ -19,27 +23,24 @@ $email    = trim($input['email']    ?? '');
 $password = $input['password']      ?? '';
 
 if (!$email || !$password) {
-    jsonResponse(false, '⚠️ E-posta ve şifre boş bırakılamaz.');
+    echo json_encode(['success' => false, 'message' => 'E-posta ve sifre bos birakilamaz.']);
+    exit;
 }
 
-if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    jsonResponse(false, '⚠️ Geçerli bir e-posta adresi girin.');
+try {
+    $pdo  = getDB();
+    $stmt = $pdo->prepare('SELECT id, ad, soyad, email, password_hash FROM users WHERE email = ? AND password_hash = ? LIMIT 1');
+    $stmt->execute([$email, $password]);
+    $user = $stmt->fetch();
+
+    if (!$user) {
+        echo json_encode(['success' => false, 'message' => 'E-posta veya sifre hatali.']);
+        exit;
+    }
+
+    $name = $user['ad'] . ' ' . $user['soyad'];
+    echo json_encode(['success' => true, 'message' => 'Giris basarili!', 'name' => $name]);
+} catch (Exception $e) {
+    echo json_encode(['success' => false, 'message' => 'Sunucu hatasi: ' . $e->getMessage()]);
 }
-
-$pdo  = getDB();
-$stmt = $pdo->prepare('SELECT id, ad, soyad, email, password_hash FROM users WHERE email = ? LIMIT 1');
-$stmt->execute([$email]);
-$user = $stmt->fetch();
-
-if (!$user || !password_verify($password, $user['password_hash'])) {
-    jsonResponse(false, '⚠️ E-posta veya şifre hatalı.');
-}
-
-// Oturum aç
-$_SESSION['user_id']   = $user['id'];
-$_SESSION['user_name'] = $user['ad'] . ' ' . $user['soyad'];
-$_SESSION['user_email']= $user['email'];
-
-jsonResponse(true, '✅ Giriş başarılı! Yönlendiriliyorsun...', [
-    'name' => $user['ad'] . ' ' . $user['soyad']
-]);
+exit;

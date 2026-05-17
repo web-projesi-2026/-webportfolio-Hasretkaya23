@@ -217,6 +217,22 @@
     </div>
   </section>
 
+
+  <!-- HAVA DURUMU (OpenMeteo API - Şanlıurfa) -->
+  <section style="padding:clamp(2.5rem,5vw,5rem) clamp(1.2rem,6%,6%);background:rgba(15,22,35,.7);position:relative;z-index:1;">
+    <div style="max-width:900px;margin:0 auto;">
+      <div class="section-head reveal">
+        <span class="section-label"><i class="fa-solid fa-cloud-sun"></i> Canlı Hava</span>
+        <h2 class="section-title">Şanlıurfa <span class="gradient-text">Hava Durumu</span></h2>
+        <p style="color:var(--text-muted,#8a9ab5);margin-top:.5rem;">OpenMeteo API ile anlık veri</p>
+      </div>
+      <div id="havaDurumuGrid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;margin-top:1.5rem;">
+        <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:24px;text-align:center;color:#8a9ab5;">Yükleniyor...</div>
+      </div>
+      <p id="havaSehir" style="font-size:.75rem;color:#8a9ab5;font-family:monospace;text-align:right;margin-top:10px;"></p>
+    </div>
+  </section>
+
   <!-- CTA -->
   <section id="cta">
     <div class="cta-inner reveal">
@@ -258,6 +274,38 @@
   <button id="scroll-top" aria-label="Scroll to top">↑</button>
 
   <script src="assets/js/main.js"></script>
+  <script>
+  (async function yukleHava() {
+    const grid = document.getElementById('havaDurumuGrid');
+    const sehir = document.getElementById('havaSehir');
+    // Şanlıurfa koordinatları
+    const lat = 37.1674, lon = 38.7955;
+    try {
+      const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=' + lat + '&longitude=' + lon + '&current=temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code&wind_speed_unit=kmh&timezone=Europe%2FIstanbul');
+      const data = await res.json();
+      const c = data.current;
+      const wc = c.weather_code;
+      const icon = wc === 0 ? '☀️' : wc <= 2 ? '🌤️' : wc <= 3 ? '☁️' : wc <= 48 ? '🌫️' : wc <= 67 ? '🌧️' : wc <= 77 ? '❄️' : wc <= 82 ? '🌦️' : '⛈️';
+      const kartlar = [
+        { icon: icon,  label: 'Hava Durumu', deger: icon },
+        { icon: '🌡️', label: 'Sıcaklık',    deger: c.temperature_2m + ' °C' },
+        { icon: '💧', label: 'Nem',          deger: c.relative_humidity_2m + ' %' },
+        { icon: '💨', label: 'Rüzgar',       deger: c.wind_speed_10m + ' km/h' },
+      ];
+      grid.innerHTML = kartlar.map(k =>
+        '<div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:24px;text-align:center;">' +
+        '<div style="font-size:2rem;margin-bottom:8px;">' + k.icon + '</div>' +
+        '<div style="font-size:.75rem;color:#8a9ab5;margin-bottom:6px;">' + k.label + '</div>' +
+        '<div style="font-size:1.25rem;font-weight:700;color:#fff;">' + k.deger + '</div>' +
+        '</div>'
+      ).join('');
+      sehir.textContent = 'Şanlıurfa · ' + new Date().toLocaleString('tr-TR', {timeZone:'Europe/Istanbul'});
+    } catch(e) {
+      grid.innerHTML = '<p style="color:#8a9ab5;">Hava durumu yüklenemedi.</p>';
+    }
+  })();
+  </script>
+
   <script>
     (function(){
       var user = null;
