@@ -1,42 +1,39 @@
 /* ================================================
-   StudyUp – Auth JavaScript (PHP Backend ile)
+   StudyUp – auth.js  (Giriş & Kayıt)
    assets/js/auth.js
    ================================================ */
 
-/* getRootPath main.js'de tanımlıdır; auth.js her zaman
-   main.js'den SONRA yüklenir. Tek kaynak burası. */
 function getAuthRootPath() {
   var path = window.location.pathname;
   if (path.includes('/pages/') || path.includes('/php/')) return '../';
   return '';
 }
 
-var DEPARTMENTS = {
+/* ── Üniversite alanları (kayıt formunda) ─────── */
+var DEPARTMANLAR = {
   undergraduate: [
-    'Computer Engineering','Software Engineering','Electrical-Electronics Engineering',
-    'Mechanical Engineering','Civil Engineering','Industrial Engineering',
-    'Chemical Engineering','Biomedical Engineering','Medicine','Dentistry','Pharmacy',
-    'Nursing','Physiotherapy and Rehabilitation','Business Administration','Economics',
-    'Law','Psychology','Sociology','International Relations',
-    'Political Science and Public Administration','Mathematics Teaching','Science Teaching',
-    'Turkish Language Teaching','English Language Teaching','Pre-School Teaching',
-    'Primary School Teaching','Graphic Design','Communication Design',
-    'Radio Television and Cinema','Journalism','Mathematics','Physics','Chemistry',
-    'Biology','Architecture','Veterinary Medicine','History','Philosophy',
-    'Turkish Language and Literature'
+    'Bilgisayar Mühendisliği','Yazılım Mühendisliği','Elektrik-Elektronik Mühendisliği',
+    'Makine Mühendisliği','İnşaat Mühendisliği','Endüstri Mühendisliği',
+    'Kimya Mühendisliği','Biyomedikal Mühendisliği','Tıp','Diş Hekimliği','Eczacılık',
+    'Hemşirelik','Fizyoterapi ve Rehabilitasyon','İşletme Yönetimi','Ekonomi',
+    'Hukuk','Psikoloji','Sosyoloji','Uluslararası İlişkiler',
+    'Siyaset Bilimi ve Kamu Yönetimi','Matematik Öğretimi','Fen Bilimleri Öğretimi',
+    'Türkçe Dil Öğretimi','İngilizce Dil Öğretimi','Okul Öncesi Eğitim',
+    'İlkokul Öğretmenliği','Grafik Tasarım','İletişim Tasarımı',
+    'Radyo Televizyon ve Sinema','Gazetecilik','Matematik','Fizik','Kimya',
+    'Biyoloji','Mimarlık','Veterinerlik','Tarih','Felsefe','Türk Dili ve Edebiyatı'
   ],
   associate: [
-    'Computer Programming','Web Design and Coding','Electrical','Electronics Technology',
-    'Machinery','Construction Technology','Mechatronics','Automotive Technology',
-    'Medical Laboratory Techniques','Anesthesia','Emergency Medical Technician',
-    'Radiology','Pharmacy Services','Dialysis','Accounting and Tax Applications',
-    'Business Management','Tourism and Hotel Management','Tourism and Travel Services',
-    'Logistics','Foreign Trade','Law Office Management',
-    'Office Management and Executive Assistance','Graphic Design','Child Development','Social Services'
+    'Bilgisayar Programlama','Web Tasarımı ve Kodlama','Elektrik','Elektronik Teknolojisi',
+    'Makine','Yapı Teknolojisi','Mekatronik','Otomotiv Teknolojisi',
+    'Tıbbi Laboratuvar Teknikleri','Anestezi','Acil Tıp Teknisyeni',
+    'Radyoloji','Eczane Hizmetleri','Diyaliz','Muhasebe ve Vergi Uygulamaları',
+    'İşletme Yönetimi','Turizm ve Otelcilik Yönetimi','Turizm ve Seyahat Hizmetleri',
+    'Lojistik','Dış Ticaret','Hukuk Bürosu Yönetimi',
+    'Ofis Yönetimi ve Yönetici Asistanlığı','Grafik Tasarım','Çocuk Gelişimi','Sosyal Hizmetler'
   ]
 };
 
-/* ---------- Üniversite alanları ---------- */
 function initUniversityFields() {
   var levelEl   = document.getElementById('auth-sinif');
   var uniDiv    = document.getElementById('uni-alanlari');
@@ -65,13 +62,13 @@ function initUniversityFields() {
     if (!deptEl) return;
     deptEl.innerHTML = '';
     if (!program) {
-      deptEl.innerHTML = '<option value="">Select program type first...</option>';
+      deptEl.innerHTML = '<option value="">Önce program türünü seçin...</option>';
       return;
     }
     var first = document.createElement('option');
-    first.value = ''; first.textContent = 'Select your department...';
+    first.value = ''; first.textContent = 'Bölümünüzü seçin...';
     deptEl.appendChild(first);
-    (DEPARTMENTS[program] || []).forEach(function (d) {
+    (DEPARTMANLAR[program] || []).forEach(function (d) {
       var opt = document.createElement('option');
       opt.value = d.toLowerCase().replace(/ /g, '-');
       opt.textContent = d;
@@ -92,10 +89,10 @@ function initUniversityFields() {
   }
 }
 
-/* ---------- Giriş Formu ---------- */
+/* ── Giriş Formu ──────────────────────────────── */
 function initLoginForm() {
-  var form    = document.getElementById('login-form');
-  var msgEl   = document.getElementById('auth-message');
+  var form      = document.getElementById('login-form');
+  var msgEl     = document.getElementById('auth-message');
   var submitBtn = form ? form.querySelector('button[type="submit"]') : null;
   if (!form) return;
 
@@ -121,23 +118,27 @@ function initLoginForm() {
       .then(function (data) {
         if (data.success) {
           showMessage(msgEl, data.message, 'success');
-          // Kullanıcı bilgisini sessionStorage'a kaydet
-          var userInfo = { name: (data.data && data.data.name) ? data.data.name : email, email: email };
+          var userInfo = {
+            name:  (data.data && data.data.name) ? data.data.name : email,
+            email: email
+          };
           sessionStorage.setItem('studyup_user', JSON.stringify(userInfo));
-          setTimeout(function () { window.location.href = getAuthRootPath() + 'index.html'; }, 1500);
+          setTimeout(function () {
+            window.location.href = getAuthRootPath() + 'index.html';
+          }, 1500);
         } else {
           showMessage(msgEl, data.message, 'error');
           setLoading(submitBtn, false);
         }
       })
       .catch(function () {
-        showMessage(msgEl, '⚠️ Sunucuya bağlanılamadı. XAMPP/WAMP çalışıyor mu?', 'error');
+        showMessage(msgEl, '⚠️ Sunucuya bağlanılamadı. XAMPP çalışıyor mu?', 'error');
         setLoading(submitBtn, false);
       });
   });
 }
 
-/* ---------- Kayıt Formu ---------- */
+/* ── Kayıt Formu ──────────────────────────────── */
 function initRegisterForm() {
   var form      = document.getElementById('register-form');
   var msgEl     = document.getElementById('auth-message');
@@ -152,14 +153,13 @@ function initRegisterForm() {
     var email    = document.getElementById('auth-email').value.trim();
     var password = document.getElementById('auth-password').value;
     var password2= document.getElementById('auth-password2').value;
-    var seviye   = document.getElementById('auth-sinif').value;
-    var program  = document.getElementById('auth-program') ? document.getElementById('auth-program').value : '';
-    var bolum    = document.getElementById('auth-bolum')   ? document.getElementById('auth-bolum').value   : '';
+    var seviye   = document.getElementById('auth-sinif') ? document.getElementById('auth-sinif').value : '';
+    var program  = document.getElementById('auth-program')   ? document.getElementById('auth-program').value   : '';
+    var bolum    = document.getElementById('auth-bolum')     ? document.getElementById('auth-bolum').value     : '';
     var sinif    = document.getElementById('auth-sinif-uni') ? document.getElementById('auth-sinif-uni').value : '';
 
-    // İstemci tarafı ön kontrol
     if (!ad || !soyad || !email || !password || !password2) {
-      showMessage(msgEl, '⚠️ Lütfen tüm alanları doldurun.', 'error'); return;
+      showMessage(msgEl, '⚠️ Lütfen tüm zorunlu alanları doldurun.', 'error'); return;
     }
     if (password.length < 6) {
       showMessage(msgEl, '⚠️ Şifre en az 6 karakter olmalıdır.', 'error'); return;
@@ -184,20 +184,22 @@ function initRegisterForm() {
       .then(function (data) {
         if (data.success) {
           showMessage(msgEl, data.message, 'success');
-          setTimeout(function () { window.location.href = getAuthRootPath() + 'pages/giris.html'; }, 1800);
+          setTimeout(function () {
+            window.location.href = getAuthRootPath() + 'pages/login.html';
+          }, 1800);
         } else {
           showMessage(msgEl, data.message, 'error');
           setLoading(submitBtn, false);
         }
       })
       .catch(function () {
-        showMessage(msgEl, '⚠️ Sunucuya bağlanılamadı. XAMPP/WAMP çalışıyor mu?', 'error');
+        showMessage(msgEl, '⚠️ Sunucuya bağlanılamadı. XAMPP çalışıyor mu?', 'error');
         setLoading(submitBtn, false);
       });
   });
 }
 
-/* ---------- Şifre Göster/Gizle ---------- */
+/* ── Şifre Göster/Gizle ───────────────────────── */
 function initPasswordToggle() {
   document.querySelectorAll('.toggle-password').forEach(function (btn) {
     btn.addEventListener('click', function () {
@@ -209,7 +211,7 @@ function initPasswordToggle() {
   });
 }
 
-/* ---------- Yardımcı Fonksiyonlar ---------- */
+/* ── Yardımcı Fonksiyonlar ────────────────────── */
 function showMessage(el, text, type) {
   if (!el) return;
   el.textContent = text;
@@ -219,14 +221,17 @@ function showMessage(el, text, type) {
 function setLoading(btn, loading) {
   if (!btn) return;
   btn.disabled = loading;
-  btn.textContent = loading ? 'Lütfen bekleyin...' : (btn.dataset.originalText || 'Gönder');
-  if (!loading && btn.dataset.originalText) btn.textContent = btn.dataset.originalText;
+  if (loading) {
+    btn.dataset.originalText = btn.dataset.originalText || btn.textContent;
+    btn.textContent = 'Lütfen bekleyin...';
+  } else {
+    btn.textContent = btn.dataset.originalText || 'Gönder';
+  }
 }
 
-/* ---------- Başlat ---------- */
+/* ── Başlat ───────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', function () {
-  // Buton orijinal metinlerini kaydet
-  document.querySelectorAll('button[type="submit"]').forEach(function(btn) {
+  document.querySelectorAll('button[type="submit"]').forEach(function (btn) {
     btn.dataset.originalText = btn.textContent;
   });
   initUniversityFields();
